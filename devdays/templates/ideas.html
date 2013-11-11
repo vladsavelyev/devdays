@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+    Идеи проектов
+{% endblock %}
+{% block contetn %}
+    {% for item in ideas  %}
+        <div class="col-lg-6">
+          <h4>{{ item.heading }}</h4>
+            <p>{{ item.description }}</p>
+            <p>{{ item.autor }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block footer %}
+
+{% endblock %}
