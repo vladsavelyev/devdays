@@ -8,9 +8,14 @@ urlpatterns = patterns(
     '',
     url(r'^/?$', 'devdays_app.views.index'),
     url(r'^openid/', include('django_openid_auth.urls')),
-    url(r'^projects/', include('devdays_app.projects.urls')),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
-    url(r'^ideas', 'devdays_app.views.ideas'),
+
+    url(r'^project/(?P<id>.+)/?', 'devdays_app.views.project_view'),
+    url(r'^ideas/?', 'devdays_app.views.ideas_view'),
+    url(r'^event/(?P<id>.+)/?', 'devdays_app.views.event_view'),
+    url(r'^users/?', 'devdays_app.views.users_view'),
+    url(r'^user/(?P<name>.+)/?', 'devdays_app.views.user_view'),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 
