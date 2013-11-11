@@ -1,5 +1,11 @@
 <html>
 <body>
-Hey!
+
+{% if is_authenticated %}
+You are signed in as <strong>{{username}}</strong> | <a href="/logout">Sign out</a>
+{% else %}
+<a href="/openid/login">Sign in with OpenID</a>
+{% endif %}
+
 </body>
 </html>
