@@ -3,3 +3,4 @@ django-openid-auth==0.5
 python-openid==2.2.5
 South
 django-south-admin
+sqlalchemy

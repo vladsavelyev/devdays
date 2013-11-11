@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'devdays_app',
     'django.contrib.admin',
+    'django_openid_auth',
     'south',
 )
 
