@@ -8,6 +8,10 @@ def index(request):
     return render_to_response('index.html')
 
 
+def projects(request):
+    pass
+
+
 def ideas(request):
     if request.method == 'GET':
         ideas = Idea.objects.all()

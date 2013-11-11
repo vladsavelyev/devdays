@@ -1,5 +1,5 @@
 from django.contrib import admin
-from devdays_app.models import Comment, Group, Student, Idea, Project, Event
+from devdays_app.models import Comment, Group, Role, UserProfile, Idea, Project, Event
 
 
 class CommentAdmin(admin.ModelAdmin):
@@ -10,7 +10,11 @@ class GroupAdmin(admin.ModelAdmin):
     pass
 
 
-class StudentAdmin(admin.ModelAdmin):
+class RoleAdmin(admin.ModelAdmin):
+    pass
+
+
+class UserProfileAdmin(admin.ModelAdmin):
     pass
 
 
@@ -27,7 +31,8 @@ class EventAdmin(admin.ModelAdmin):
 
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Group, GroupAdmin)
-admin.site.register(Student, StudentAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(Role, RoleAdmin)
 admin.site.register(Idea, IdeaAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Event, EventAdmin)
