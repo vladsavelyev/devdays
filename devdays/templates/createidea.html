@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+    Новая идея.
+{% endblock %}
+{% block contetnt %}
+   <center> <h1> Добавь новую идею!!!</h1>
+    <table border = "1">
+        <tr> <td> Название идеи </td> <td> <textarea name="IdeaName"></textarea> </td></tr>
+        <tr> <td> Описание  </td> <td> <textarea name = "Subscribe"></textarea> </td></tr>
+        <tr> <td> Автор </td> <td>
+                            <form  method="post" name="drop_down_box">
+                                <select name="menu" size="1">
+                                    {% for group in Group%}
+                                            <option value="third"> {{ group.name }}</option>
+                                    {% endfor %}
+                                </select>
+                        </td></tr>
+            </table>
+    <input type="submit" value="Подтвердить">
+    </center>
+{% endblock %}
