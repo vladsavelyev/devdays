@@ -1,11 +1,16 @@
 # coding=utf-8
-from django.shortcuts import render
 from django.shortcuts import render_to_response
-from devdays_app.models import Idea
+from devdays_app.models import Idea, Project
 
 
 def index(request):
     return ideas(request)
+
+
+def projects(request):
+    name_title = u'Проекты'
+    projects = Project.objects.all()
+    return render_to_response('projects.html', locals())
 
 
 def ideas(request):
