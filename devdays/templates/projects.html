@@ -7,7 +7,9 @@
         <div class="col-lg-6">
           <h4>{{ item.topic.heading }}</h4>
             <p>{{ item.topic }}</p>
-            <p>{{ item.students}}</p>
+            {% for student in item.students %}
+                <p>{{ student }}</p>
+            {% endfor %}
             <p>{{ item.topic.description }}</p>
         </div>
     {% endfor %}
