@@ -1,16 +1,34 @@
 {% extends 'base.html' %}
-{% block title %}
-    Идеи проектов
-{% endblock %}
-{% block contetn %}
-    {% for item in ideas  %}
-        <div class="col-lg-6">
-          <h4>{{ item.heading }}</h4>
-            <p>{{ item.description }}</p>
-            <p>{{ item.autor }}</p>
+
+{% block title %}Ideas{% endblock %}
+
+{% block bottom_contents %}
+    <div class="row">   <p>
+    {% for idea in ideas  %}
+        <div class="col-md-4">
+            <h4>{{ idea.name }}</h4>
+            <p>{{ idea.autor }}</p>
+            <p>{{ idea.description }}</p>
         </div>
     {% endfor %}
+    </div>
 {% endblock %}
-{% block footer %}
 
-{% endblock %}
+      <!-- Example row of columns -->
+{#      <div class="row">#}
+{#        <div class="col-md-4">#}
+{#          <h2>Project</h2>#}
+{#          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>#}
+{#          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+{#        </div>#}
+{#        <div class="col-md-4">#}
+{#          <h2>Project</h2>#}
+{#          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>#}
+{#          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+{#       </div>#}
+{#        <div class="col-md-4">#}
+{#          <h2>Project</h2>#}
+{#          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>#}
+{#          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+{#        </div>#}
+{#      </div>#}

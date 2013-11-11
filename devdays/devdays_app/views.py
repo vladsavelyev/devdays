@@ -5,7 +5,7 @@ from devdays_app.models import Idea, Project
 
 
 def index(request):
-    return render_to_response('index.html')
+    return ideas(request)
 
 
 def projects(request):
@@ -19,6 +19,7 @@ def ideas(request):
         return render_to_response('ideas.html', {
             'ideas': Idea.objects.all()
         })
+
     else:
-        raise Exception('Creating not implemented')
+        raise Exception('Creating is not implemented')
 
