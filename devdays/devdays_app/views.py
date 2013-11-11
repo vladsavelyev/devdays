@@ -18,7 +18,6 @@ def projects(request):
 def ideas(request):
     if request.method == 'GET':
         ideas = Idea.objects.all()
-
         return render_to_response('ideas.html', {
             'ideas': [i.name for i in ideas]
         })
