@@ -25,10 +25,10 @@ class Idea(models.Model):
 
 class Project(models.Model):
     idea = models.ForeignKey(Idea, blank=True, null=True)
-    students = models.ManyToManyField(Student)
-    comments = models.ManyToManyField(Comment)
+    students = models.ManyToManyField(Student, blank=True, null=True)
+    comments = models.ManyToManyField(Comment, blank=True, null=True)
 
 
 class Event(models.Model):
     date = models.DateTimeField(blank=True, null=True)
-    projects = models.ManyToManyField(Project)
+    projects = models.ManyToManyField(Project, blank=True, null=True)
