@@ -23,12 +23,14 @@ class Idea(models.Model):
     likes = models.ManyToManyField(Student, related_name='LikeStudent')
 
 
+class Event(models.Model):
+    date = models.DateTimeField(blank=True, null=True)
+
+
 class Project(models.Model):
     idea = models.ForeignKey(Idea, blank=True, null=True)
+    event = models.ForeignKey(Event, blank=True, null=True)
     students = models.ManyToManyField(Student, blank=True, null=True)
     comments = models.ManyToManyField(Comment, blank=True, null=True)
 
 
-class Event(models.Model):
-    date = models.DateTimeField(blank=True, null=True)
-    projects = models.ManyToManyField(Project, blank=True, null=True)
