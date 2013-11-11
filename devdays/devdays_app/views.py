@@ -1,11 +1,14 @@
 # coding=utf-8
 from django.shortcuts import render
 from django.shortcuts import render_to_response
-from devdays_app import Project, Idea
+from devdays_app.models import Idea
 
 
 def index(request):
-    return render_to_response('index.html')
+    return render_to_response('index.html', {
+        'username': request.user.username,
+        'is_authenticated': request.user.is_authenticated
+    })
 
 
 def projects(request):
