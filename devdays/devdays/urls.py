@@ -6,7 +6,8 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^/?$', 'devdays_app.views.index'),
-    url(r'^projects/add', 'devdays_app.projects.add'),
+    url(r'^projects', 'devdays_app.views.projects'),
+    url(r'^projects/new', 'devdays_app.views.projects'),
     url(r'^admin/', include(admin.site.urls)),
 )
 
