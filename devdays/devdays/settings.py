@@ -24,6 +24,8 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+TEMPLATE_DIRS = 'templates'
+
 ALLOWED_HOSTS = []
 
 
