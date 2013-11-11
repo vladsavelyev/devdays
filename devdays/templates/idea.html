@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}{{ idea_name }}{% endblock %}
+{% block title %}{{ idea.name }}{% endblock %}
 
 
 {% block contents %}
-    Idea {{ idea_name }}
+    <p>{{ Idea.description }}</p>
+    <p>{{ Idea.autor }}</p>
+    <p>{{ Idea.likes }}</p>
+
 {% endblock %}
