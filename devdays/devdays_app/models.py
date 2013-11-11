@@ -6,8 +6,8 @@ class Comment(models.Model):
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=1024)
-    year = models.IntegerField()
+    name = models.CharField(max_length=1024, blank=True, null=True)
+    year = models.IntegerField(blank=True, null=True)
 
 
 class Student(models.Model):
@@ -16,9 +16,15 @@ class Student(models.Model):
     group = models.ForeignKey(Group, blank=True, null=True)
 
 
-class Project(models.Model):
+class Idea(models.Model):
     name = models.CharField(max_length=1024)
     description = models.CharField(max_length=30000, blank=True, null=True)
+    autor = models.ForeignKey(Student, blank=True, null=True, related_name='AutorStudent')
+    likes = models.ManyToManyField(Student, related_name='LikeStudent')
+
+
+class Project(models.Model):
+    idea = models.ForeignKey(Idea, blank=True, null=True)
     students = models.ManyToManyField(Student)
     comments = models.ManyToManyField(Comment)
 
