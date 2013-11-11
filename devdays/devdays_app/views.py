@@ -18,8 +18,12 @@ def event_view(event_id, request):
     # если будет:
     # список идей
 
+    event = Event.objects.all()[0]
+
     return render_to_response('event.html', {
         'user': request.user,
+        'event': event,
+        'ideas': Idea.objects.all()
     })
 
 
@@ -40,16 +44,16 @@ def event_view(event_id, request):
 #
 
 def project_view(request, id):
-    return render_to_response('project_view.html')
+    return render_to_response('project.html')
 
 
 def ideas_view(request):
-    return render_to_response('ideas_view.html')
+    return render_to_response('ideas.html')
 
 
 def users_view(request):
-    return render_to_response('users_view.html')
+    return render_to_response('users.html')
 
 
 def user_view(request, name):
-    return render_to_response('user_view.html')
+    return render_to_response('user.html')

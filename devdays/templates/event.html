@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Event{% endblock %}
+{% block title %}Dev Days {{ event.date|date:'N Y' }}{% endblock %}
 
-{% block bottom_contents %}
+{% block header %}Dev Days {{ event.date|date:'N Y' }}{% endblock %}
+
+{% block contents %}
     <div class="row">   <p>
     {% for idea in ideas  %}
         <div class="col-md-4">
-            <h4>{{ idea.name }}</h4>
-            <p>{{ idea.autor }}</p>
-            <p>{{ idea.description }}</p>
+            <h4><a href="idea/{{ idea.id }}">{{ idea.name }}</a></h4>
+            {% if idea.autor %}
+            <p>Преложено: <a href="{{ idea.autor.user.username }}">{{ idea.autor.name }} {{ idea.autor.surname }}</a></p>
+            {% endif %}
+            <p>{{ idea.description|truncatewords:40 }}</p>
         </div>
     {% endfor %}
     </div>
