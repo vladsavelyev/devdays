@@ -5,7 +5,7 @@ from devdays_app.models import Idea
 
 
 def index(request):
-    return render_to_response('index.html')
+    return ideas(request)
 
 
 def ideas(request):
