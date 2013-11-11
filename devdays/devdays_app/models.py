@@ -58,7 +58,6 @@ class Idea(models.Model):
 
 class Event(models.Model):
     date = models.DateTimeField(blank=True, null=True)
-
     def __str__(self):
         return "Event %s" % str(self.date)
 
