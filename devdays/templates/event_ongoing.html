@@ -1,32 +1,33 @@
 {% extends 'event.html' %}
 
 {% block event_contents %}
-    <div style="margin-left: 15px;"><h4>Проекты</h4></div>
+    <div style="margin-left: 4px;"><h4>Проекты</h4></div>
     <table class="table table-hover table-condensed">
         <thead>
         <tr>
-            <th></th>
             <th> Тема </th>
             <th> Описание </th>
+            <th style="padding-right: 40px;"> Гитхаб </th>
             <th> Участники </th>
         </tr>
         </thead>
 
     {% for proj in event.project_set.all %}
         <tr>
-            <td align="center" nowrap>
-                {% for i in proj.students_set.all %}
-                    <img height="50px" src="/static/picture_users/m/{{ forloop.counter }}.png">
-                {% endfor %}
-            </td>
+{#            <td align="center" nowrap>#}
+{#                {% for i in proj.students_set.all %}#}
+{#                    <img height="50px" src="/static/picture_users/m/{{ forloop.counter }}.png">#}
+{#                {% endfor %}#}
+{#            </td>#}
             <td style="padding-right: 40px;">{{ proj.idea.name }}</td>
             <td style="padding-right: 40px;">{{ proj.idea.description|truncatewords:"10" }} </td>
-            <td>
-                {% for student in proj.objects.students %}
-                    <img src="/static/picture_users/m/0{{ forloop.counter }}.png">
-                {% endfor %}
-            </td>
-            <td align="center">
+{#            <td style="padding-right: 40px;">#}
+{#                {% for student in proj.objects.students %}#}
+{#                    <img src="/static/picture_users/m/0{{ forloop.counter }}.png">#}
+{#                {% endfor %}#}
+{#            </td>#}
+            <td style="padding-right: 40px;">{% if proj.link %}<a href="{{ proj.link }}">{{ proj.link }}</a>{% endif %}</td>
+            <td align="center" style="padding-right: 40px;">
                 {% for i in proj.students_set.all %}
                     <img height="50px" src="/static/picture_users/m/{{ 4 }}.png">
                 {% endfor %}
