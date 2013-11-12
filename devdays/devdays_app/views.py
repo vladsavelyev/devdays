@@ -88,13 +88,13 @@ def event_project_selection(request, event):
     })
 
 
-def start_event(request, month, year, ideas_num=10):
+def start_selection(request, month, year, ideas_num=10):
     e = Event.objects.filter(date__month=month).filter(date__year=year)
     if not e.exists():
         raise Http404()
     e = e.get()
 
-    e.state = 'ongoing'
+    e.state = 'selection'
 
     ideas = Idea.objects \
                 .annotate(num_likes=Count('likes')) \
@@ -102,8 +102,21 @@ def start_event(request, month, year, ideas_num=10):
     for i in ideas:
         p = Project(idea=i, event=e)
         p.save()
+        p.students.add(request.user)
+        p.save()
 
     e.save()
+
+    return redirect('/event/%s_%s' % (month, year))
+
+
+def start_event(request, month, year):
+    e = Event.objects.filter(date__month=month).filter(date__year=year)
+    if not e.exists():
+        raise Http404()
+    e = e.get()
+
+    e.state = 'ongoing'
 
     return redirect('/event/%s_%s' % (month, year))
 
@@ -115,6 +128,16 @@ def like_idea(request, idea_id):
     else:
         i.likes.add(request.user)
         i.save()
+        return HttpResponse()
+
+
+def participate(request, project_id):
+    p = Project.objects.get(project_id)
+    if p.students.all().filter(id=request.user.id).exists():
+        return HttpResponseBadRequest()
+    else:
+        p.students.add(request.user)
+        p.save()
         return HttpResponse()
 
 
@@ -159,5 +182,3 @@ def ajax_new_idea(request):
     #    msg = "GET petitions are not allowed for this view."
 
 
-def events_view(request):
-    return render_to_response('events_view.html')

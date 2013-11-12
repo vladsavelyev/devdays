@@ -10,8 +10,8 @@
            class="btn btn-success btn-lg"
            id="start_btn"
            style="margin-left: 20px; text-decoration: none;"
-           href="/start_event/{{ event.get_link }}">
-            Start Dev Days
+           href="/start_selection/{{ event.get_link }}">
+            Start project selection with top ideas
         </a >
     {% endif %}
 {% endblock %}
@@ -23,14 +23,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Offer idea</h4>
+                    <h4 class="modal-title" id="myModalLabel">Offer Idea</h4>
                 </div>
+
                 <div class="modal-body">
                     <input type="text" id="idea_subject" class="form-control" placeholder="Subject">
                     <br>
                     <textarea id="idea_description" class="form-control" style="height: 200px;"
                               placeholder="Description"></textarea>
-
                 </div>
 
                 <div class="modal-footer">
@@ -47,7 +47,7 @@
     </p>
 
     <div class="row" id="ideas_row"><p>
-        <h4>Идеи</h4>
+{#        <div style="margin-left: 15px;"><h4>Идеи</h4></div>#}
         {% for idea in ideas %}
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -64,6 +64,7 @@
                         <small>Likes: <span id="idea_{{ idea.id }}_likes_span">{{ idea.likes.count }}</span></small>&nbsp;
                         <button type="button" class="btn btn-default btn-xs" id='like_button'
                                 onclick='like_click({{ idea.id }})'>+ 1</button>
+
                     </span>
                     <span style="clear: both;"></span>
                 <br>
@@ -84,34 +85,44 @@
             },
         });
     }
-    </script>
 
-    <script>
-        function submit_idea() {
-            $.ajax({
-                type: 'GET',
-                url: 'http://127.0.0.1:8000/_ajax_new_idea',
-                dataType: 'text',
-                data: 'all=' + $('#idea_subject').val() + '&text=' + $('#idea_description').val(),
-                success: function (data) {
-                    $('#myModal').modal('hide');
-                    $('#ideas_row').prepend('<div class="panel panel-default"> \
-                        <div class="panel-body"> \
-                            <b><a style="font-size: 1.3em;" href="idea/">' + $('#idea_subject').val() + '</a></b> \
-                            &nbsp;&nbsp;&nbsp;<a style="color: darkgray;" \
-                                                 href="">Vlad Saveliev</a> \
-                            <p>' + $('#idea_description').val() + '</p> \
-                            <span style="float: right;">likes: 0</span><span style="clear: both;"></span><br> \
-                        </div> \
-                    </div>');
+    function participate_click(idea_id) {
+        $.ajax({
+            url: '/participate/' + idea_id,
+            dataType: 'text',
+            data: '',
+            success: function (data) {
+                participants = $('#participants_' + idea_id + '_span').html();
+                $('#participants_' + idea_id + '_span').html(participants + ' ' + {{ user.last_name }});
+            },
+        });
+    }
 
-                },
-                error: function (data) {
-                    $('#myModal').modal('hide');
-                    {#                  $("#MESSAGE-DIV").html("Something went wrong!");#}
-                }
-            });
-            return false;
-        }
+    function submit_idea() {
+        $.ajax({
+            type: 'GET',
+            url: 'http://127.0.0.1:8000/_ajax_new_idea',
+            dataType: 'text',
+            data: 'all=' + $('#idea_subject').val() + '&text=' + $('#idea_description').val(),
+            success: function (data) {
+                $('#myModal').modal('hide');
+                $('#ideas_row').prepend('<div class="panel panel-default"> \
+                    <div class="panel-body"> \
+                        <b><a style="font-size: 1.3em;" href="idea/">' + $('#idea_subject').val() + '</a></b> \
+                        &nbsp;&nbsp;&nbsp;<a style="color: darkgray;" \
+                                             href="">Vlad Saveliev</a> \
+                        <p>' + $('#idea_description').val() + '</p> \
+                        <span style="float: right;">likes: 0</span><span style="clear: both;"></span><br> \
+                    </div> \
+                </div>');
+
+            },
+            error: function (data) {
+                $('#myModal').modal('hide');
+                {#                  $("#MESSAGE-DIV").html("Something went wrong!");#}
+            }
+        });
+        return false;
+    }
     </script>
 {% endblock %}
