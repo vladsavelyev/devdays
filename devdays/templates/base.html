@@ -12,7 +12,7 @@
     <title>{% block title %}{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
+    <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/main.css" %}"> 
@@ -41,7 +41,13 @@
         </div>
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
-            <a class="btn btn-success" href='openid/login'>Sign in</a>
+              {% if not user.is_authenticated %}
+              <a class="btn btn-success" href='openid/login'>Sign in</a>
+              {% else %}
+                    <a  href="user/{{ user.username }}">{{ user.username }}</a>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <a class="btn btn-success" href="logout">log out</a>
+              {% endif %}
             <ul class="nav navbar-nav">
 {#              <li class="active"><a href="#">Home</a></li>#}
 {#                  <li><a href="#about">About</a></li>#}
@@ -52,25 +58,77 @@
       </div>
     </div>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>{% block header %}{% endblock %}</h1>
-        <p>
-            {% block top_contents %}{% endblock %}
-        </p>
-{#        <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>#}
-      </div>
-    </div>
-
     <div class="container">
-      {% block bottom_contents %}{% endblock %}
-        <br>
-    <span style="clear: both;"></span>
+
+      <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+
+          <div class="jumbotron">
+            <h1>{% block header %}Devdays{% endblock %}</h1>
+            <p>{% block description %}{% endblock %}</p>
+          </div>
+
+          {% block contents %}
+          <div class="row">
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <h4> Автор: ФИО</h4>
+              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+             <h4> Автор: ФИО</h4>
+              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                <h4> Автор: ФИО</h4>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <h4> Автор:  ФИО</h4>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <h4> Автор:  ФИО</h4>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <h4> Автор:  ФИО</h4>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+          </div><!--/row-->
+
+          {% endblock %}
+        </div><!--/span-->
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+          <div class="list-group">
+            <a href="#" class="list-group-item active">Devdays Nov 2013</a>
+            <a href="#" class="list-group-item">Devdays Apr 2013</a>
+            <a href="#" class="list-group-item">Devdays Nov 2012</a>
+            <a href="#" class="list-group-item">Devdays May 2012</a>
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
+
       <hr>
 
       <footer>
-        <p><a href="http://mit.spbau.ru/">mit.spbau.ru</a></p>
+        <p><a href="http://mit.spbau.ru/">Кафедра математических и информационных технологий СПбАУ РАН</a></p>
       </footer>
     </div> <!-- /container -->
 
@@ -80,5 +138,13 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+
+    <script>
+        $(document).ready(function() {
+          $('[data-toggle=offcanvas]').click(function() {
+            $('.row-offcanvas').toggleClass('active');
+          });
+        });
+    </script>
   </body>
 </html>

@@ -4,3 +4,4 @@ python-openid==2.2.5
 South
 django-south-admin
 sqlalchemy
+django-autoslug
