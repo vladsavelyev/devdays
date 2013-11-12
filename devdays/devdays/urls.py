@@ -10,7 +10,7 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^/?$', 'devdays_app.views.index_view'),
-    url(r'^stat/', include('devdays_app.static.urls')),
+    url(r'^', include('devdays_app.static.urls')),
     url(r'^openid/', include('django_openid_auth.urls')),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
     url(r'^projects/', include('devdays_app.projects.urls')),
