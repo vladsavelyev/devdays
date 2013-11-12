@@ -55,7 +55,12 @@ class Project(models.Model):
     students = models.ManyToManyField(User, blank=True, null=True)
     comments = models.ManyToManyField(Comment, blank=True, null=True)
     link = models.CharField(max_length=1024, blank=True, null=True)
-
+    
+    
+        
+        
     def __str__(self):
         return "Project (event: %s, idea: %s)" % (str(self.event.date), str(self.idea))
 
+
+User.regular_users = User.objects.all().filter(is_staff=False).filter(is_superuser=False)

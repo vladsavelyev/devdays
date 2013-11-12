@@ -18,10 +18,10 @@ urlpatterns = patterns(
     url(r'^idea/(?P<ideaId>\d+)/?', 'devdays_app.ideas.views.index'),
     url(r'^ideas/?', 'devdays_app.ideas.views.list_items'),
     
-    url(r'^project/(?P<id>.+)/?', 'devdays_app.views.project_view'),
+    url(r'^project/(?P<id>\d+)/?', 'devdays_app.views.project_view'),
     
-    url(r'^user/(?P<name>.+)/?', 'devdays_app.views.user_view'),
-    url(r'^users/?', 'devdays_app.views.users_view'),
+    url(r'^user/(?P<userId>\d+)/?', 'devdays_app.users.views.index'),
+    url(r'^users/?', 'devdays_app.users.views.list_users'),
     
     url(r'^_ajax_new_idea/?', 'devdays_app.views.ajax_new_idea'),
     

@@ -2,12 +2,15 @@
 
 {% block title %}Users{% endblock %}
 
-{% block bottom_contents %}
-    <div class="row">   <p>
-    {% for user in users  %}
-        <div class="col-md-4">
-            <h4>{{ user.name }}</h4>
-        </div>
+{% block contents %}
+    <table class="table table-condensed">
+    {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+        </tr>
     {% endfor %}
-    </div>
+    
+    </table>
+    
 {% endblock %}
