@@ -54,8 +54,8 @@
                     <b><a style="font-size: 1.3em;" href="idea/{{ idea.id }}">{{ idea.name }}</a></b>
                     {% if idea.autor %}
                         &nbsp;&nbsp;&nbsp;<a style="color: darkgray;"
-                                             href="{{ idea.autor.user.username }}">{{ idea.autor.user.first_name }}
-                        {{ idea.autor.user.last_name }}</a>
+                                             href="/user/{{ idea.autor.username }}">{{ idea.autor.first_name }}
+                        {{ idea.autor.last_name }}</a>
                     {% endif %}
 
                     <p>{{ idea.description|truncatewords:40 }}</p>
