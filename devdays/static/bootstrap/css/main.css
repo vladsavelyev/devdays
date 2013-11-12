@@ -51,3 +51,7 @@ footer {
 
 .idea_block{ background: #5bc0de; margin: 5px; width: 210px }
 .idea_description{ height: 160px }
+.tdpading{
+    margin:0 auto;
+    padding: 5px;
+}
