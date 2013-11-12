@@ -35,14 +35,6 @@ class UserProfile(models.Model):
         return "%s %s" % (self.user.first_name, self.user.last_name)
 
 
-# http://stackoverflow.com/questions/44109/extending-the-user-model-with-custom-fields-in-django
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        profile, created = UserProfile.objects.get_or_create(user=instance)
-
-post_save.connect(create_user_profile, sender=User)
-
-
 class Idea(models.Model):
     name = models.CharField(max_length=1024)
     description = models.CharField(max_length=30000, blank=True, null=True)
@@ -61,7 +53,7 @@ class Event(models.Model):
     date = models.DateTimeField()
     length = models.IntegerField(default=3)
     state = models.CharField(max_length=100, blank=True, null=True, default='initial')
-      # initial | poll | active | complete
+        # initial | selection | ongoing | past
 
     def __str__(self):
         return "Event %s" % str(self.date)
