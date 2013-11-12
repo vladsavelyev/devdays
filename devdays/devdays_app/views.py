@@ -1,10 +1,11 @@
 # coding=utf-8
 import datetime
+from django.contrib.auth.models import User
 from django.db.models import Count
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.shortcuts import render_to_response, redirect
 from devdays_app.forms import IdeaForm
-from devdays_app.models import Idea, Project, Event, UserProfile, Notification
+from devdays_app.models import Idea, Project, Event, Notification
 
 
 def index_view(request):
@@ -16,8 +17,8 @@ def index_view(request):
     if active_event.exists():
         e = active_event.get()
     else:
-        e = Event.objects.filter(
-            date__lte=datetime.datetime.today()).order_by('date').get()
+        e = Event.objects.filter(date__lte=datetime.datetime.today())\
+                         .order_by('date')[0]
 
     return event_view(request,
                       e.date.month,
@@ -37,12 +38,11 @@ def event_view(request, month, year):
     elif e.state == 'ongoing' or e.state == 'past':
         return event_ongoing(request, e)
     else:
-        return event_ongoing(request, e)
         return HttpResponseBadRequest('bad satus')
 
 
 def user_view(request, username):
-    u = UserProfile.objects.get(user__username=username)
+    u = User.objects.get(username=username)
     return render_to_response('user.html', {
         'user': u,
         'events': Event.objects.all(),
@@ -117,7 +117,7 @@ def ajax_new_idea(request):
     print request.GET
     subj = request.GET['all']
     text = request.GET['text']
-    idea = Idea(name=subj, description=text, autor=UserProfile.objects.all()[0])
+    idea = Idea(name=subj, description=text, autor=request.user)
     idea.save()
 
     print 'idea added'

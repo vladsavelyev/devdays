@@ -21,10 +21,13 @@
         <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
             Offer idea
         </button>
+
         {% if user.is_staff or user.is_supersuser %}
-            <a class="btn btn-successs btn-lg" href="event_project_selection.html">
-                Start event
-            </a>
+            <button type="button" class="btn btn-success btn-lg"
+                    href="event_project_selection.html"
+                    style="margin-left: 20px;">
+                Start with top ideas
+            </button >
         {% endif %}
     </center>
 

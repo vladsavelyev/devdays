@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.forms import forms
-from devdays_app.models import Comment, Group, Role, UserProfile, Idea, Project, Event, Notification
+from devdays_app.models import Comment, Group, Idea, Project, Event, Notification
 
 
 class IdeaForm(forms.Form):
@@ -13,14 +13,6 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 class GroupAdmin(admin.ModelAdmin):
-    pass
-
-
-class RoleAdmin(admin.ModelAdmin):
-    pass
-
-
-class UserProfileAdmin(admin.ModelAdmin):
     pass
 
 
@@ -42,8 +34,6 @@ class NotificationAdmin(admin.ModelAdmin):
 
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Group, GroupAdmin)
-admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(Role, RoleAdmin)
 admin.site.register(Idea, IdeaAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Event, EventAdmin)

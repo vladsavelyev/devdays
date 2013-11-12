@@ -18,28 +18,12 @@ class Group(models.Model):
         return "%s %d" % (self.name, self.year)
 
 
-class Role(models.Model):
-    name = models.CharField(max_length=1024)  # student | prepod | admin
-
-    def __str__(self):
-        return "%s" % self.name
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User)
-
-    group = models.ForeignKey(Group, blank=True, null=True)
-    role = models.ForeignKey(Role, blank=True, null=True)
-
-    def __str__(self):
-        return "%s %s" % (self.user.first_name, self.user.last_name)
-
 
 class Idea(models.Model):
     name = models.CharField(max_length=1024)
     description = models.CharField(max_length=30000, blank=True, null=True)
-    autor = models.ForeignKey(UserProfile, blank=True, null=True, related_name='AutorUserProfile')
-    likes = models.ManyToManyField(UserProfile, related_name='LikeUserProfile', blank=True, null=True)
+    autor = models.ForeignKey(User, blank=True, null=True, related_name='AutorUserProfile')
+    likes = models.ManyToManyField(User, related_name='LikeUser', blank=True, null=True)
     link = models.CharField(max_length=1024, blank=True, null=True)
 
     def likes_n(self):
@@ -68,7 +52,7 @@ class Notification(models.Model):
 class Project(models.Model):
     idea = models.ForeignKey(Idea, blank=True, null=True)
     event = models.ForeignKey(Event, blank=True, null=True)
-    students = models.ManyToManyField(UserProfile, blank=True, null=True)
+    students = models.ManyToManyField(User, blank=True, null=True)
     comments = models.ManyToManyField(Comment, blank=True, null=True)
     link = models.CharField(max_length=1024, blank=True, null=True)
 
