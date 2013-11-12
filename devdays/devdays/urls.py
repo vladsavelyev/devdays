@@ -10,7 +10,7 @@ urlpatterns = patterns(
     '',
     (r'^/?$', 'devdays_app.views.index_view'),
     (r'^openid/', include('django_openid_auth.urls')),
-    (r'^logout/$', 'django.contrib.auth.views.logout'),
+    (r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     (r'^events/' + EVENT_PATTERN, 'devdays_app.events.views.index'),
     (r'^events/?', 'devdays_app.views.events_view'),
     (r'^project/(?P<id>.+)/?', 'devdays_app.views.project_view'),
