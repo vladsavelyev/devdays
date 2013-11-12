@@ -15,21 +15,21 @@
 {% block event_contents %}
     <div class="row" id="ideas_row"><p>
         <div style="margin-left: 15px;"><h4>Проекты</h4></div>
-        {% for prj in event.projects %}
+        {% for prj in projects %}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <b><a style="font-size: 1.3em;" href="project/{{ prj.id }}">{{ prj.idea.name }}</a></b>
-
-                    {% if prj.idea.autor %}
-                        &nbsp;&nbsp;&nbsp;
-                        <a style="color: darkgray;"
-                           href="/user/{{ prj.idea.autor.username }}">{{ prj.idea.autor.first_name }}
-                        {{ prj.idea.autor.last_name }}</a>
-                    {% endif %}
+{##}
+{#                    {% if prj.idea.autor %}#}
+{#                        &nbsp;&nbsp;&nbsp;#}
+{#                        <a style="color: darkgray;"#}
+{#                           href="/user/{{ prj.idea.autor.username }}">{{ prj.idea.autor.first_name }}#}
+{#                        {{ prj.idea.autor.last_name }}</a>#}
+{#                    {% endif %}#}
 
                     <p>{{ prj.idea.description }}</p>
 
-                    {% for st in prj.students %}
+                    {% for st in prj.students.all %}
                         &nbsp;&nbsp;&nbsp;
                         <a style="color: darkgray;" href="/user/{{ st.username }}">{{ st.first_name }}
                         {{ st.last_name }}</a>
@@ -37,12 +37,12 @@
 
                     <span style="float: right;">
                         <small>Participants: <span id="participants_{{ prj.id }}_span">
-                            {% for st in prj.students %}
-                                {{ st.last_name }}
+                            {% for st in prj.students.all %}
+                                {{ st.first_name }} {{ st.last_name }}
                             {% endfor %}
                         </span></small>&nbsp;
                         <button type="button" class="btn btn-default btn-xs" id='participate_button'
-                                onclick='participate_click({{ prj.id }})'>+ 1</button>
+                                onclick='participate_click({{ prj.id }})'>Take part</button>
                     </span>
                     <span style="clear: both;"></span>
                 <br>

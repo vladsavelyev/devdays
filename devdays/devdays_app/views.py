@@ -80,9 +80,12 @@ def event_project_selection(request, event):
     ideas = Idea.objects \
                 .annotate(num_likes=Count('likes')) \
                 .order_by('-num_likes', '-id')
+    projects = event.project_set.all()
+
     return render_to_response('event_project_selection.html', {
         'user': request.user,
         'event': event,
+        'projects': projects,
         'events': Event.objects.all().order_by('-date'),
         'ideas': ideas
     })
@@ -95,6 +98,7 @@ def start_selection(request, month, year, ideas_num=10):
     e = e.get()
 
     e.state = 'selection'
+    e.save()
 
     ideas = Idea.objects \
                 .annotate(num_likes=Count('likes')) \
@@ -117,6 +121,7 @@ def start_event(request, month, year):
     e = e.get()
 
     e.state = 'ongoing'
+    e.save()
 
     return redirect('/event/%s_%s' % (month, year))
 
