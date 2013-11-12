@@ -23,13 +23,16 @@
         </button>
 
         {% if user.is_staff or user.is_supersuser %}
-            <button type="button" class="btn btn-success btn-lg"
-                    href="event_project_selection.html"
-                    style="margin-left: 20px;">
+            <a type="button"
+               class="btn btn-success btn-lg"
+               id="start_btn"
+               style="margin-left: 20px;"
+               href="/start_event/{{ event.get_link }}">
                 Start with top ideas
-            </button >
+            </a >
         {% endif %}
     </center>
+
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
