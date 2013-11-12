@@ -1,5 +1,6 @@
 # coding=utf-8
 import datetime
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from devdays_app.forms import IdeaForm
 from devdays_app.models import Idea, Project, Event, UserProfile, Notification
@@ -17,12 +18,12 @@ def index_view(request):
         return future_event(request, nearest_event)
 
 
-def event_view(request, event_id):
-    e = Event.objects.get(id=event_id)
-    if e.date <= datetime.datetime.today() <= e.date.replace(day=e.date.day + 3):
-        return current_event(request, e)
-    else:
-        return future_event(request, e)
+def event_view(request, mounth, year):
+    e = Event.objects.get(id=id)
+    #if e.date <= datetime.datetime.today() <= e.date.replace(day=e.date.day + 3):
+    return current_event(request, e)
+    #else:
+    #    return future_event(request, e)
 
 
 
@@ -32,7 +33,6 @@ def user_view(request, username):
         'user': u,
         'events': Event.objects.all(),
     })
-
 
 
 def current_event(request, event):
@@ -96,6 +96,8 @@ def ajax_new_idea(request):
 
     print 'idea added'
 
+    return HttpResponse()
+
     #form = IdeaForm(request.POST or None)
     #
     #if request.method == "POST" and request.is_ajax():
@@ -109,3 +111,7 @@ def ajax_new_idea(request):
     #        msg = "AJAX post invalid"
     #else:
     #    msg = "GET petitions are not allowed for this view."
+
+
+def events_view(request):
+    return render_to_response('events_view.html')

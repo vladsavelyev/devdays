@@ -78,6 +78,16 @@
                 data: 'all=' + $('#idea_subject').val() + '&text=' + $('#idea_description').val(),
                 success: function (data) {
                     $('#myModal').modal('hide');
+                    $('#ideas_row').prepend('<div class="panel panel-default"> \
+            <div class="panel-body"> \
+                <b><a style="font-size: 1.3em;" href="idea/">' + $('#idea_subject').val() + '</a></b> \
+                &nbsp;&nbsp;&nbsp;<a style="color: darkgray;" \
+                                     href="">Vlad Saveliev</a> \
+                <p>' + $('#idea_description').val() + '</p> \
+                <span style="float: right;">likes: 0</span><span style="clear: both;"></span><br> \
+            </div> \
+        </div>');
+
 {#                        $("#SOME-DIV").html(data);#}
                 },
                 error: function(data) {
