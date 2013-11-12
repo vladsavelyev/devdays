@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Dev Days {{ event.date|date:'M Y' }}{% endblock %}
+
+{% block header %}Dev Days {{ event.date|date:'M Y' }}{% endblock %}
+
+{% block description %}
+    <hr style="background-color: black">
+
+    {% if notifications %}
+        <b>События:</b><br>
+        {% for notification in notifications %}
+            <p>{{ notification.text }}</p>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block contents %}
+    <p>
+    <center>{% block buttons %}{% endblock %}</center>
+
+    {% block event_contents %}{% endblock %}
+{% endblock %}

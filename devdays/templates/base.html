@@ -35,7 +35,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">AU Dev Days</a>
+          <a class="navbar-brand" href="/">AU Dev Days</a>
         </div>
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
@@ -65,7 +65,8 @@
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
 
-          <div class="jumbotron">
+          <div class="jumbotron"
+            {% if event and event.state == 'ongoing' %}style="background-color: #5cb85c;"{% endif %}>
             <h1>{% block header %}Devdays{% endblock %}</h1>
             <p>{% block description %}{% endblock %}</p>
           </div>
@@ -73,7 +74,16 @@
           {% block contents %}{% endblock %}
         </div><!--/span-->
 
-        {% include "context_navigation.html" %}
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+            <div class="list-group">
+                {% for e in events %}
+                <a href="/event/{{ e.get_link }}"
+                   class="list-group-item {% if event and e.id == event.id %}active{% endif %}"
+                        >Devdays {{ e.date|date:"M Y" }}</a>
+                {% endfor %}
+            </div>
+        </div><!--/span-->
+
       </div><!--/row-->
 
       <hr>

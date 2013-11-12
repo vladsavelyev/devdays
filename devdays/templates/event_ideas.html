@@ -1,38 +1,22 @@
-{% extends 'base.html' %}
+{% extends 'event.html' %}
 
-{% block title %}Dev Days {{ event.date|date:'N Y' }}{% endblock %}
+{% block buttons %}
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        Offer idea
+    </button>
 
-{% block header %}Dev Days {{ event.date|date:'N Y' }}{% endblock %}
-
-{% block description %}
-    <hr style="background-color: black">
-
-    {% if notifications %}
-        <b>События:</b><br>
-        {% for notification in notifications %}
-            <p>{{ notification.text }}</p>
-        {% endfor %}
+    {% if user.is_staff or user.is_supersuser %}
+        <a type="button"
+           class="btn btn-success btn-lg"
+           id="start_btn"
+           style="margin-left: 20px;"
+           href="/start_event/{{ event.month }}_{{ event.year }}">
+            Start with top ideas
+        </a >
     {% endif %}
 {% endblock %}
 
-{% block contents %}
-    <p>
-    <center>
-        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-            Offer idea
-        </button>
-
-        {% if user.is_staff or user.is_supersuser %}
-            <a type="button"
-               class="btn btn-success btn-lg"
-               id="start_btn"
-               style="margin-left: 20px;"
-               href="/start_event/{{ event.month }}_{{ event.year }}">
-                Start with top ideas
-            </a >
-        {% endif %}
-    </center>
-
+{% block event_contents %}
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
