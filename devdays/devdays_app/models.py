@@ -67,3 +67,6 @@ class Project(models.Model):
 
 
 User.regular_users = User.objects.all().filter(is_staff=False).filter(is_superuser=False)
+def getFullUserName(self):
+    return self.first_name + " " + self.last_name
+User.full_name = getFullUserName

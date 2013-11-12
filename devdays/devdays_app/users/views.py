@@ -1,9 +1,15 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 import devdays_app.models #it is necessary!
+from devdays_app.users.tools import getGravatarUrl
+
 
 def index(request, userId):
-    data = { 'user': User.regular_users.get(id=int(userId))}
+    user = User.regular_users.get(id=int(userId))
+    data = { 
+        'user': user,
+        'gravatarUrl': getGravatarUrl(request, user.email, 128)
+    }
     return render_to_response('user.html', data)
 
 
