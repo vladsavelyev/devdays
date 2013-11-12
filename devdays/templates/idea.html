@@ -3,8 +3,9 @@
 {% block title %}{{ idea.name }}{% endblock %}
 
 {% block contents %}
-    <p>{{ Idea.description }}</p>
-    <p>{{ Idea.autor }}</p>
-    <p>{{ Idea.likes }}</p>
+    <h2>{{ idea.name }}</h2>
+    <p>{{ idea.description }}</p>
+    <p>{{ idea.autor }}</p>
+    <p>{{ idea.likes.all.count }}</p>
 
 {% endblock %}
