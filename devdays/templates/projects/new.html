@@ -1,9 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %} Заявка на проект {% endblock %}
+
+{% block contents %}
+
+    <div class="row">   <p>
+    {% for idea in ideas  %}
+        <div class="col-md-4">
+            <h4>{{ idea.name }}</h4>
+            <p>{{ idea.autor }}</p>
+            <p>{{ idea.description }}</p>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

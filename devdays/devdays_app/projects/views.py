@@ -9,9 +9,8 @@ def index(request, event):
     """
     Show all projects
     """
-    
     return render_to_response('projects/index.html')
 
 @login_required
 def new(request):    
-    return render_to_response('projects/index.html')
+    return render_to_response('projects/new.html')
