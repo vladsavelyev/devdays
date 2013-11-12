@@ -20,6 +20,11 @@
                     <img src="/static/picture_users/m/0{{ forloop.counter }}.png">
                 {% endfor %}
             </td>
+            <td align="center">
+                {% for i in proj.students_set.all %}
+                    <img height="50px" src="/static/picture_users/m/{{ 4 }}.png">
+                {% endfor %}
+            </td>
         </tr>
     {% endfor %}
     </table>

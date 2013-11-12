@@ -95,6 +95,8 @@ def start_event(request, month, year, ideas_num=10):
         raise Http404()
     e = e.get()
 
+    e.state = 'ongoing'
+
     ideas = Idea.objects \
                 .annotate(num_likes=Count('likes')) \
                 .order_by('-num_likes', '-id')[:ideas_num]
@@ -102,9 +104,19 @@ def start_event(request, month, year, ideas_num=10):
         p = Project(idea=i, event=e)
         p.save()
 
-    e.state = 'ongoing'
+    e.save()
 
     return redirect('/event/%s_%s' % (month, year))
+
+
+def like_event(request, month, year, idea_id):
+    e = Event.objects.filter(date__month=month).filter(date__year=year)
+    if not e.exists():
+        raise Http404()
+    e = e.get()
+
+
+
 
 
 def project_view(request, id):
