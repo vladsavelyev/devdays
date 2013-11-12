@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.forms import forms
 from devdays_app.models import Comment, Group, Role, UserProfile, Idea, Project, Event
 
 
@@ -36,4 +37,3 @@ admin.site.register(Role, RoleAdmin)
 admin.site.register(Idea, IdeaAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Event, EventAdmin)
-
