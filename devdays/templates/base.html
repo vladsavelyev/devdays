@@ -17,6 +17,9 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/main.css" %}"> 
 
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -44,12 +47,6 @@
             </ul>
         </div>
         <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">О проекте</a></li>
-                    <li><a href="#about">Идеи</a></li>
-                    <li><a href="#contact">Участники</a></li>
-                   <!-- <li ><a href="#contact">Archive</a> </li>-->
-                  </ul>
           <form class="navbar-form navbar-right">
               {% if not user.is_authenticated %}
               <a class="btn btn-success" href='/openid/login'>Sign in</a>
@@ -105,11 +102,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(function() {
           $('[data-toggle=offcanvas]').click(function() {
             $('.row-offcanvas').toggleClass('active');
           });

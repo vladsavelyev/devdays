@@ -12,7 +12,7 @@
            style="margin-left: 20px; text-decoration: none;"
            href="/start_event/{{ event.get_link }}">
             Start Dev Days
-        </a >
+        </a>
     {% endif %}
 {% endblock %}
 
@@ -21,23 +21,25 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Offer idea</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="text" id="idea_subject" class="form-control" placeholder="Subject">
-                    <br>
-                    <textarea id="idea_description" class="form-control" style="height: 200px;"
-                              placeholder="Description"></textarea>
+                <form id="modal-form">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Offer idea</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="idea_subject" class="form-control" placeholder="Subject">
+                        <br>
+                        <textarea id="idea_description" class="form-control" style="height: 200px;"
+                                  placeholder="Description"></textarea>
 
-                </div>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="submit_new_form">Close
-                    </button>
-                    <button type="button" onclick='submit_idea' class="btn btn-primary">Save changes</button>
-                </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" id="submit_new_form"
+                               value="Отмена">
+                        <input type="submit" class="btn btn-primary" value="Отправить"/>
+                    </div>
+                </form>
 
             </div>
             <!-- /.modal-content -->
@@ -63,39 +65,39 @@
                     <span style="float: right;">
                         <small>Likes: <span id="idea_{{ idea.id }}_likes_span">{{ idea.likes.count }}</span></small>&nbsp;
                         <button type="button" class="btn btn-default btn-xs" id='like_button'
-                                onclick='like_click({{ idea.id }})'>+ 1</button>
+                                onclick='like_click({{ idea.id }})'>+ 1
+                        </button>
                     </span>
                     <span style="clear: both;"></span>
-                <br>
+                    <br>
                 </div>
             </div>
         {% endfor %}
     </div>
 
-    <script>
-    function like_click(idea_id) {
-        $.ajax({
-            url: '/like_idea/' + idea_id,
-            dataType: 'text',
-            data: '',
-            success: function (data) {
-                likes = parseInt($('#idea_' + idea_id + '_likes_span').html());
-                $('#idea_' + idea_id + '_likes_span').html(likes + 1);
-            },
-        });
-    }
-    </script>
-
-    <script>
-        function submit_idea() {
+    <script type="text/javascript">
+        function like_click(idea_id) {
             $.ajax({
-                type: 'GET',
-                url: 'http://127.0.0.1:8000/_ajax_new_idea',
+                url: '/like_idea/' + idea_id,
                 dataType: 'text',
-                data: 'all=' + $('#idea_subject').val() + '&text=' + $('#idea_description').val(),
+                data: '',
                 success: function (data) {
-                    $('#myModal').modal('hide');
-                    $('#ideas_row').prepend('<div class="panel panel-default"> \
+                    likes = parseInt($('#idea_' + idea_id + '_likes_span').html());
+                    $('#idea_' + idea_id + '_likes_span').html(likes + 1);
+                }
+            });
+        }
+    
+        $(function () {
+            $("#modal-form").submit(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://127.0.0.1:8000/_ajax_new_idea',
+                    dataType: 'text',
+                    data: 'all=' + $('#idea_subject').val() + '&text=' + $('#idea_description').val(),
+                    success: function (data) {
+                        $('#myModal').modal('hide');
+                        $('#ideas_row').prepend('<div class="panel panel-default"> \
                         <div class="panel-body"> \
                             <b><a style="font-size: 1.3em;" href="idea/">' + $('#idea_subject').val() + '</a></b> \
                             &nbsp;&nbsp;&nbsp;<a style="color: darkgray;" \
@@ -105,13 +107,14 @@
                         </div> \
                     </div>');
 
-                },
-                error: function (data) {
-                    $('#myModal').modal('hide');
-                    {#                  $("#MESSAGE-DIV").html("Something went wrong!");#}
-                }
-            });
-            return false;
-        }
+                    },
+                    error: function (data) {
+                        $('#myModal').modal('hide');
+                        {#                  $("#MESSAGE-DIV").html("Something went wrong!");#}
+                    }
+                });
+                return false;
+            })
+        });
     </script>
 {% endblock %}
