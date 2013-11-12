@@ -1,0 +1,61 @@
+ <!doctype html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>Demo Modal Windows via Bootstrap</title>
+  <link rel="stylesheet" type="text/css"  href="../static/bootstrap/css/bootstrap.css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../static/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="../static/bootstrap/js/modals.js"></script>
+
+ <!-- <script type="text/javascript">
+     function alertMes(){
+      var txt1 = document.getElementById('email').value
+      var txt2= document.getElementById('password').value
+      alert(txt1+txt2+txt3+txt4);
+
+     }
+  </script>-->
+
+
+</head>
+
+<body>
+  <div id="w" class="container center">
+
+    <center>
+      <a href="#modalwin" data-toggle="modal" class="btn btn-large">BUTTON TO CALL WINDOW</a>
+    </center>
+
+    <!-- first modal window -->
+    <div id="modalwin" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <header class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">x</a>
+        <h3> Sign In<small> :]</small></h3>
+      </header>
+        <div class="container">
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input id = "email" type="text" class="form-control" placeholder="Email address" required autofocus>
+        <input id = "password" type="password" class="form-control" placeholder="Password" required>
+
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </form>
+
+    </div> <!-- /container -->
+
+
+      <footer class="modal-footer">
+                <a href="#" class="btn btn-primary" id="okwin01" onclick="" type="submit">Sign in! </a>
+      </footer>
+    </div> <!-- @end @modalwin -->
+
+   </div>
+
+</body>
+</html>
