@@ -12,6 +12,7 @@ urlpatterns = patterns(
 
     url(r'^project/(?P<id>.+)/?', 'devdays_app.views.project_view'),
     url(r'^ideas/?', 'devdays_app.views.ideas_view'),
+    url(r'^_ajax_new_idea/?', 'devdays_app.views.ajax_new_idea'),
     url(r'^event/(?P<id>.+)/?', 'devdays_app.views.event_view'),
     url(r'^users/?', 'devdays_app.views.users_view'),
     url(r'^user/(?P<name>.+)/?', 'devdays_app.views.user_view'),

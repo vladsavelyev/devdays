@@ -1,6 +1,7 @@
 # coding=utf-8
 import datetime
 from django.shortcuts import render_to_response, redirect
+from devdays_app.forms import IdeaForm
 from devdays_app.models import Idea, Project, Event, UserProfile, Notification
 
 
@@ -37,23 +38,22 @@ def user_view(request, username):
 def current_event(request, event):
     ns = Notification.objects.filter(event=event)
 
-    return render_to_response('event.html', {
+    return render_to_response('current_event.html', {
         'user': request.user,
         'event': event,
         'notifications': ns,
         'events': Event.objects.all(),
-        'ideas': Idea.objects.all()
+        'ideas': Idea.objects.all().order_by('-id'),
     })
 
 
 def future_event(request, event):
-    return render_to_response('event.html', {
+    return render_to_response('future_event.html', {
         'user': request.user,
         'event': event,
         'events': Event.objects.all(),
-        'ideas': Idea.objects.all()
+        'ideas': Idea.objects.all().order_by('-id')
     })
-
 
 
 #def projects(request):
@@ -84,5 +84,28 @@ def users_view(request):
     return render_to_response('users.html')
 
 
-def user_view(request, name):
-    return render_to_response('user.html')
+def ajax_new_idea(request):
+    if request.is_ajax():
+        print 'ajax, ok'
+
+    print request.GET
+    subj = request.GET['all']
+    text = request.GET['text']
+    idea = Idea(name=subj, description=text, autor=UserProfile.objects.all()[0])
+    idea.save()
+
+    print 'idea added'
+
+    #form = IdeaForm(request.POST or None)
+    #
+    #if request.method == "POST" and request.is_ajax():
+    #    print request.POST
+    #
+    #    if form.is_valid():
+    #        idea = Idea(name=form.subject, description=form.text)
+    #        idea.save()
+    #        msg = "AJAX submission saved"
+    #    else:
+    #        msg = "AJAX post invalid"
+    #else:
+    #    msg = "GET petitions are not allowed for this view."

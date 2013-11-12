@@ -3,6 +3,11 @@ from django.forms import forms
 from devdays_app.models import Comment, Group, Role, UserProfile, Idea, Project, Event, Notification
 
 
+class IdeaForm(forms.Form):
+    subject = forms.TextInput()
+    text = forms.Textarea()
+
+
 class CommentAdmin(admin.ModelAdmin):
     pass
 
