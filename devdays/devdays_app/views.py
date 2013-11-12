@@ -1,6 +1,7 @@
 # coding=utf-8
 import datetime
-from django.http import HttpResponse
+from django.db.models import Count
+from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.shortcuts import render_to_response, redirect
 from devdays_app.forms import IdeaForm
 from devdays_app.models import Idea, Project, Event, UserProfile, Notification
@@ -10,21 +11,34 @@ def index_view(request):
     today = datetime.datetime.today()
     #cur_event = Event.objects.filter(date__lte=today)\
     #    .filter(date__gte=today.replace(day=today.day + 3))
+
     active_event = Event.objects.filter(state='active')
     if active_event.exists():
-        return current_event(request, active_event[0])
+        e = active_event.get()
     else:
-        nearest_event = Event.objects.filter(date__lte=datetime.datetime.today()).order_by('date')[0]
-        return future_event(request, nearest_event)
+        e = Event.objects.filter(
+            date__lte=datetime.datetime.today()).order_by('date').get()
+
+    return event_view(request,
+                      e.date.month,
+                      e.date.year)
 
 
-def event_view(request, mounth, year):
-    e = Event.objects.get(id=id)
-    #if e.date <= datetime.datetime.today() <= e.date.replace(day=e.date.day + 3):
-    return current_event(request, e)
-    #else:
-    #    return future_event(request, e)
+def event_view(request, month, year):
+    e = Event.objects.filter(date__month=month).filter(date__year=year)
+    if not e.exists():
+        raise Http404()
+    e = e.get()
 
+    if e.state == 'initial':
+        return event_ideas(request, e)
+    elif e.state == 'selection':
+        return event_project_selection(request, e)
+    elif e.state == 'ongoing' or e.state == 'past':
+        return event_ongoing(request, e)
+    else:
+        return event_ongoing(request, e)
+        return HttpResponseBadRequest('bad satus')
 
 
 def user_view(request, username):
@@ -35,26 +49,38 @@ def user_view(request, username):
     })
 
 
-def current_event(request, event):
+def event_ongoing(request, event):
     ns = Notification.objects.filter(event=event)
 
-    return render_to_response('current_event.html', {
+    ideas = Idea.objects \
+                .annotate(num_likes=Count('likes')) \
+                .order_by('-num_likes', '-id')
+
+    return render_to_response('event_ongoing.html', {
         'user': request.user,
         'event': event,
         'notifications': ns,
         'events': Event.objects.all(),
-        'ideas': Idea.objects.all().order_by('-id'),
+        'ideas': ideas,
     })
 
 
-def future_event(request, event):
-    return render_to_response('future_event.html', {
+def event_ideas(request, event):
+    return render_to_response('event_ideas.html', {
         'user': request.user,
         'event': event,
         'events': Event.objects.all(),
         'ideas': Idea.objects.all().order_by('-id')
     })
 
+
+def event_project_selection(request, event):
+    return render_to_response('event_project_selection.html', {
+        'user': request.user,
+        'event': event,
+        'events': Event.objects.all(),
+        'ideas': Idea.objects.all().order_by('-id')
+    })
 
 #def projects(request):
 #    name_title = u'Проекты'
