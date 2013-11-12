@@ -60,8 +60,11 @@
 
                     <p>{{ idea.description|truncatewords:40 }}</p>
 
-                    <span style="float: right;">likes: {{ idea.likes.count }}</span><span
-                        style="clear: both;"></span><br>
+                    <span style="float: right;">
+                        <button href="/like_event/{{ event.get_link }}/{{ idea.id }}">+ 1 (<span>{{ idea.likes.count }}</span>)</button>
+                    </span>
+                    <span style="clear: both;"></span>
+                <br>
                 </div>
             </div>
         {% endfor %}

@@ -109,6 +109,16 @@ def start_event(request, month, year, ideas_num=10):
     return redirect('/event/%s_%s' % (month, year))
 
 
+def like_event(request, month, year, idea_id):
+    e = Event.objects.filter(date__month=month).filter(date__year=year)
+    if not e.exists():
+        raise Http404()
+    e = e.get()
+
+
+
+
+
 def project_view(request, id):
     return render_to_response('project.html')
 
