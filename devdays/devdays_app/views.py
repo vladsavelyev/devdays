@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from devdays_app.models import Idea, Project, Event
 
 
-def index(request):
+def index_view(request):
     # ищем ивенты с сегодняшней датой
     # если нашелся, то берем сегодняший.
     # если нет, то наступающий.
