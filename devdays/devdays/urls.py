@@ -15,7 +15,7 @@ urlpatterns = patterns(
     url(r'^event/' + EVENT_PATTERN, 'devdays_app.views.event_view'),
     url(r'^events/?', 'devdays_app.views.events_view'),
     url(r'^start_event/' + EVENT_PATTERN, 'devdays_app.views.start_event'),
-    url(r'^like_event/' + EVENT_PATTERN + '/(?P<idea_id>\s+', 'devdays_app.views.like_event'),
+    url(r'^like_idea/(?P<idea_id>\d+)/?', 'devdays_app.views.like_idea'),
 
     url(r'^idea/(?P<ideaId>\d+)/?', 'devdays_app.ideas.views.index'),
     url(r'^ideas/?', 'devdays_app.ideas.views.list_items'),

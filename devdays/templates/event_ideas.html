@@ -2,16 +2,16 @@
 
 {% block buttons %}
     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-        Offer idea
+        Offer Idea
     </button>
 
     {% if user.is_staff or user.is_supersuser %}
         <a type="button"
            class="btn btn-success btn-lg"
            id="start_btn"
-           style="margin-left: 20px;"
+           style="margin-left: 20px; text-decoration: none;"
            href="/start_event/{{ event.get_link }}">
-            Start with top ideas
+            Start Dev Days
         </a >
     {% endif %}
 {% endblock %}
@@ -36,7 +36,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="submit_new_form">Close
                     </button>
-                    <button type="button" id='submit_idea' class="btn btn-primary">Save changes</button>
+                    <button type="button" onclick='submit_idea' class="btn btn-primary">Save changes</button>
                 </div>
 
             </div>
@@ -58,10 +58,12 @@
                         {{ idea.autor.last_name }}</a>
                     {% endif %}
 
-                    <p>{{ idea.description|truncatewords:40 }}</p>
+                    <p>{{ idea.description }}</p>
 
                     <span style="float: right;">
-                        <button href="/like_event/{{ event.get_link }}/{{ idea.id }}">+ 1 (<span>{{ idea.likes.count }}</span>)</button>
+                        <small>Likes: <span id="idea_{{ idea.id }}_likes_span">{{ idea.likes.count }}</span></small>&nbsp;
+                        <button type="button" class="btn btn-default btn-xs" id='like_button'
+                                onclick='like_click({{ idea.id }})'>+ 1</button>
                     </span>
                     <span style="clear: both;"></span>
                 <br>
@@ -71,7 +73,21 @@
     </div>
 
     <script>
-        $('#submit_idea').click(function () {
+    function like_click(idea_id) {
+        $.ajax({
+            url: '/like_idea/' + idea_id,
+            dataType: 'text',
+            data: '',
+            success: function (data) {
+                likes = parseInt($('#idea_' + idea_id + '_likes_span').html());
+                $('#idea_' + idea_id + '_likes_span').html(likes + 1);
+            },
+        });
+    }
+    </script>
+
+    <script>
+        function submit_idea() {
             $.ajax({
                 type: 'GET',
                 url: 'http://127.0.0.1:8000/_ajax_new_idea',
@@ -96,6 +112,6 @@
                 }
             });
             return false;
-        });
+        }
     </script>
 {% endblock %}
