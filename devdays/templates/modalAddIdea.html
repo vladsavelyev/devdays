@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>Demo Modal Windows via Bootstrap</title>
+  <meta name="author" content="Jake Rocheleau">
+
+  <link rel="stylesheet" type="text/css"  href="../static/bootstrap/css/bootstrap.css">
+
+  <link rel="stylesheet" type="text/css"  href="../static/bootstrap/css/default.css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../static/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="../static/bootstrap/js/modals.js"></script>
+
+  <script type="text/javascript">
+     function alertMes(){
+      var txt1 = document.getElementById('text1').value
+      var txt2= document.getElementById('text2').value
+      var txt3 = document.getElementById('text3').value
+      var txt4 = document.getElementById('text4').value
+
+                alert(txt1+txt2+txt3+txt4);
+
+     }
+  </script>
+
+
+</head>
+
+<body>
+  <div id="w" class="container center">
+
+    <center>
+      <a href="#modalwin" data-toggle="modal" class="btn btn-large">BUTTON TO CALL WINDOW</a>
+    </center>
+
+    <!-- first modal window -->
+    <div id="modalwin" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <header class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">x</a>
+        <h3>Добавь новую идею <small> :]</small></h3>
+      </header>
+      <table  class = "table">
+          <tr> <td width = "20px"> Название </td>  <td> <textarea name = "Name" id="text1"> </textarea> </td></tr>
+           <tr> <td width = "20px"> Описание </td>  <td> <textarea name = "Subscr"id="text2"> </textarea> </td></tr>
+           <tr> <td width = "20px"> Технологии </td>  <td> <textarea name = "Technology"id="text3"> </textarea> </td></tr>
+           <tr> <td width = "20px"> Автор </td>  <td> <textarea name = "Autor"id="text4"> </textarea> </td></tr>
+      </table>
+      <footer class="modal-footer">
+                <a href="#" class="btn btn-primary" id="okwin01" onclick="alertMes()" >Sounds Good! </a>
+      </footer>
+    </div> <!-- @end @modalwin -->
+
+   </div>
+
+</body>
+</html>
