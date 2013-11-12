@@ -7,6 +7,7 @@
     <table class="table table-hover table-condensed">
         <thead>
         <tr>
+            <th> Количество участников </th>
             <th> Тема </th>
             <th> Описание </th>
         </tr>
@@ -14,6 +15,11 @@
 
     {% for proj in event.project_set.all %}
         <tr>
+            <td>
+                {% for studebt in proj.objects.students %}
+                    <img src="/static/picture_users/m/0{{ forloop.counter }}.png">
+                {% endfor %}
+            </td>
             <td>{{ proj.idea.name }}</td>
             <td>{{ proj.idea.description|truncatewords:"10" }} </td>
         </tr>
