@@ -28,13 +28,11 @@ class Role(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
-    name = models.CharField(max_length=1024)
-    surname = models.CharField(max_length=1024, blank=True, null=True)
     group = models.ForeignKey(Group, blank=True, null=True)
     role = models.ForeignKey(Role, blank=True, null=True)
 
     def __str__(self):
-        return "%s %s" % (self.name, self.surname)
+        return "%s %s" % (self.user.first_name, self.user.last_name)
 
 
 # http://stackoverflow.com/questions/44109/extending-the-user-model-with-custom-fields-in-django
@@ -52,15 +50,27 @@ class Idea(models.Model):
     likes = models.ManyToManyField(UserProfile, related_name='LikeUserProfile', blank=True, null=True)
     link = models.CharField(max_length=1024, blank=True, null=True)
 
+    def likes_n(self):
+        return self.likes.count()
+
     def __str__(self):
         return "%s" % self.name
 
 
 class Event(models.Model):
-    date = models.DateTimeField(blank=True, null=True)
+    date = models.DateTimeField()
+    length = models.IntegerField(default=3)
+    state = models.CharField(max_length=100, blank=True, null=True, default='initial')
+      # initial | poll | active | complete
 
     def __str__(self):
         return "Event %s" % str(self.date)
+
+
+class Notification(models.Model):
+    date = models.DateTimeField()
+    text = models.TextField(blank=True, null=True)
+    event = models.ForeignKey(Event)
 
 
 class Project(models.Model):

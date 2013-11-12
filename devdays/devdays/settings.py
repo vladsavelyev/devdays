@@ -118,3 +118,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"), 'static',
 )
+
+
+USE_I18N = True
+USE_L10N = False
+
+LANGUAGE_CODE = 'ru-RU'
+
+DATE_FORMAT = 'E Y'
