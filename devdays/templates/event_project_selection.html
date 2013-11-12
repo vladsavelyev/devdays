@@ -1,1 +1,68 @@
 {% extends 'event.html' %}
+
+{% block buttons %}
+    {% if user.is_staff or user.is_supersuser %}
+        <a type="button"
+           class="btn btn-success btn-lg"
+           id="start_btn"
+           style="margin-left: 20px; text-decoration: none;"
+           href="/start_event/{{ event.get_link }}">
+            Start Dev Days
+        </a >
+    {% endif %}
+{% endblock %}
+
+{% block event_contents %}
+    <div class="row" id="ideas_row"><p>
+        <div style="margin-left: 15px;"><h4>Проекты</h4></div>
+        {% for prj in event.projects %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <b><a style="font-size: 1.3em;" href="project/{{ prj.id }}">{{ prj.idea.name }}</a></b>
+
+                    {% if prj.idea.autor %}
+                        &nbsp;&nbsp;&nbsp;
+                        <a style="color: darkgray;"
+                           href="/user/{{ prj.idea.autor.username }}">{{ prj.idea.autor.first_name }}
+                        {{ prj.idea.autor.last_name }}</a>
+                    {% endif %}
+
+                    <p>{{ prj.idea.description }}</p>
+
+                    {% for st in prj.students %}
+                        &nbsp;&nbsp;&nbsp;
+                        <a style="color: darkgray;" href="/user/{{ st.username }}">{{ st.first_name }}
+                        {{ st.last_name }}</a>
+                    {% endfor %}
+
+                    <span style="float: right;">
+                        <small>Participants: <span id="participants_{{ prj.id }}_span">
+                            {% for st in prj.students %}
+                                {{ st.last_name }}
+                            {% endfor %}
+                        </span></small>&nbsp;
+                        <button type="button" class="btn btn-default btn-xs" id='participate_button'
+                                onclick='participate_click({{ prj.id }})'>+ 1</button>
+                    </span>
+                    <span style="clear: both;"></span>
+                <br>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+
+    function participate_click(prj_id) {
+        $.ajax({
+            url: '/participate/' + prj_id,
+            dataType: 'text',
+            data: '',
+            success: function (data) {
+                participants = $('#participants_' + prj_id + '_span').html();
+                $('#participants_' + prj_id + '_span').html(participants + ' ' + {{ user.last_name }});
+            },
+        });
+    }
+    </script>
+{% endblock %}

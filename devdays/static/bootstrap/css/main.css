@@ -49,5 +49,5 @@ footer {
   }
 }
 
-.idea_block{ background: #5bc0de; margin: 5px; width: 210px }
+.idea_block{ background: #F5F5F5; border:2px; margin: 25px; width: 240px }
 .idea_description{ height: 160px }
