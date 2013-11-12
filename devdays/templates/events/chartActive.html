@@ -7,20 +7,20 @@
     <table class="table table-hover table-condensed">
         <thead>
         <tr>
-            <th> Количество участников </th>
-            <th> Тема </th>
+            <th> </th>
+            <th align="center"> Тема </th>
             <th> Описание </th>
         </tr>
         </thead>
 
     {% for proj in event.project_set.all %}
         <tr>
-            <td>
-                {% for studebt in proj.objects.students %}
-                    <img src="/static/picture_users/m/0{{ forloop.counter }}.png">
+            <td align="center" nowrap>
+                {% for i in proj.students_set.all %}
+                    <img height="50px" src="/static/picture_users/m/{{ 4 }}.png">
                 {% endfor %}
             </td>
-            <td>{{ proj.idea.name }}</td>
+            <td align="center">{{ proj.idea.name }}</td>
             <td>{{ proj.idea.description|truncatewords:"10" }} </td>
         </tr>
     {% endfor %}
