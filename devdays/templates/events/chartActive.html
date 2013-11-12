@@ -4,6 +4,20 @@
 
 {% block contents %}
     <h4> Проекты {{ event.date }}</h4>
-    
+    <table class="table table-hover table-condensed">
+        <thead>
+        <tr>
+            <th> Тема </th>
+            <th> Описание </th>
+        </tr>
+        </thead>
 
+    {% for proj in event.project_set.all %}
+        <tr>
+            <td>{{ proj.idea.name }}</td>
+            <td>{{ proj.idea.description|truncatewords:"10" }} </td>
+        </tr>
+    {% endfor %}
+    </table>
+        
 {% endblock %}
