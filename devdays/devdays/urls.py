@@ -9,6 +9,9 @@ EVENT_PATTERN = r'(?P<month>\d{2})_(?P<year>\d{4})/?'
 urlpatterns = patterns(
     '',
     url(r'^/?$', 'devdays_app.views.index_view'),
+    url(r'^about/?$', 'devdays_app.static.views.about'),
+    url(r'^contacts/?$', 'devdays_app.static.views.contacts'),
+    
     url(r'^openid/', include('django_openid_auth.urls')),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     
