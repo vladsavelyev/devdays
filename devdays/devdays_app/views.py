@@ -1,30 +1,59 @@
 # coding=utf-8
-from django.shortcuts import render_to_response
-from devdays_app.models import Idea, Project, Event
+import datetime
+from django.shortcuts import render_to_response, redirect
+from devdays_app.models import Idea, Project, Event, UserProfile, Notification
 
 
-def index(request):
-    # ищем ивенты с сегодняшней датой
-    # если нашелся, то берем сегодняший.
-    # если нет, то наступающий.
-    event = Event.objects.all()[0]
-    return event_view(event.id, request)
+def index_view(request):
+    today = datetime.datetime.today()
+    #cur_event = Event.objects.filter(date__lte=today)\
+    #    .filter(date__gte=today.replace(day=today.day + 3))
+    active_event = Event.objects.filter(state='active')
+    if active_event.exists():
+        return current_event(request, active_event[0])
+    else:
+        nearest_event = Event.objects.filter(date__lte=datetime.datetime.today()).order_by('date')[0]
+        return future_event(request, nearest_event)
 
 
-def event_view(event_id, request):
-    # если ивент идет:
-    # список проектов
+def event_view(request, event_id):
+    e = Event.objects.get(id=event_id)
+    if e.date <= datetime.datetime.today() <= e.date.replace(day=e.date.day + 3):
+        return current_event(request, e)
+    else:
+        return future_event(request, e)
 
-    # если будет:
-    # список идей
 
-    event = Event.objects.all()[0]
+
+def user_view(request, username):
+    u = UserProfile.objects.get(user__username=username)
+    return render_to_response('user.html', {
+        'user': u,
+        'events': Event.objects.all(),
+    })
+
+
+
+def current_event(request, event):
+    ns = Notification.objects.filter(event=event)
 
     return render_to_response('event.html', {
         'user': request.user,
         'event': event,
+        'notifications': ns,
+        'events': Event.objects.all(),
         'ideas': Idea.objects.all()
     })
+
+
+def future_event(request, event):
+    return render_to_response('event.html', {
+        'user': request.user,
+        'event': event,
+        'events': Event.objects.all(),
+        'ideas': Idea.objects.all()
+    })
+
 
 
 #def projects(request):

@@ -8,123 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Comment'
-        db.create_table('devdays_app_comment', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('text', self.gf('django.db.models.fields.CharField')(max_length=20000, null=True, blank=True)),
-        ))
-        db.send_create_signal('devdays_app', ['Comment'])
-
-        # Adding model 'Group'
-        db.create_table('devdays_app_group', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True, blank=True)),
-            ('year', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-        ))
-        db.send_create_signal('devdays_app', ['Group'])
-
-        # Adding model 'Role'
-        db.create_table('devdays_app_role', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=1024)),
-        ))
-        db.send_create_signal('devdays_app', ['Role'])
-
-        # Adding model 'UserProfile'
-        db.create_table('devdays_app_userprofile', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=1024)),
-            ('surname', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True, blank=True)),
-            ('group', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['devdays_app.Group'], null=True, blank=True)),
-            ('role', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['devdays_app.Role'], null=True, blank=True)),
-        ))
-        db.send_create_signal('devdays_app', ['UserProfile'])
-
-        # Adding model 'Idea'
-        db.create_table('devdays_app_idea', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=1024)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=30000, null=True, blank=True)),
-            ('autor', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='AutorUserProfile', null=True, to=orm['devdays_app.UserProfile'])),
-            ('link', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True, blank=True)),
-        ))
-        db.send_create_signal('devdays_app', ['Idea'])
-
-        # Adding M2M table for field likes on 'Idea'
-        m2m_table_name = db.shorten_name('devdays_app_idea_likes')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('idea', models.ForeignKey(orm['devdays_app.idea'], null=False)),
-            ('userprofile', models.ForeignKey(orm['devdays_app.userprofile'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['idea_id', 'userprofile_id'])
-
-        # Adding model 'Event'
-        db.create_table('devdays_app_event', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('date', self.gf('django.db.models.fields.DateTimeField')()),
-        ))
-        db.send_create_signal('devdays_app', ['Event'])
-
-        # Adding model 'Project'
-        db.create_table('devdays_app_project', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('idea', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['devdays_app.Idea'], null=True, blank=True)),
-            ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['devdays_app.Event'], null=True, blank=True)),
-            ('link', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True, blank=True)),
-        ))
-        db.send_create_signal('devdays_app', ['Project'])
-
-        # Adding M2M table for field students on 'Project'
-        m2m_table_name = db.shorten_name('devdays_app_project_students')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('project', models.ForeignKey(orm['devdays_app.project'], null=False)),
-            ('userprofile', models.ForeignKey(orm['devdays_app.userprofile'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['project_id', 'userprofile_id'])
-
-        # Adding M2M table for field comments on 'Project'
-        m2m_table_name = db.shorten_name('devdays_app_project_comments')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('project', models.ForeignKey(orm['devdays_app.project'], null=False)),
-            ('comment', models.ForeignKey(orm['devdays_app.comment'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['project_id', 'comment_id'])
+        # Adding field 'Event.state'
+        db.add_column('devdays_app_event', 'state',
+                      self.gf('django.db.models.fields.CharField')(default='initial', max_length=100, null=True, blank=True),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting model 'Comment'
-        db.delete_table('devdays_app_comment')
-
-        # Deleting model 'Group'
-        db.delete_table('devdays_app_group')
-
-        # Deleting model 'Role'
-        db.delete_table('devdays_app_role')
-
-        # Deleting model 'UserProfile'
-        db.delete_table('devdays_app_userprofile')
-
-        # Deleting model 'Idea'
-        db.delete_table('devdays_app_idea')
-
-        # Removing M2M table for field likes on 'Idea'
-        db.delete_table(db.shorten_name('devdays_app_idea_likes'))
-
-        # Deleting model 'Event'
-        db.delete_table('devdays_app_event')
-
-        # Deleting model 'Project'
-        db.delete_table('devdays_app_project')
-
-        # Removing M2M table for field students on 'Project'
-        db.delete_table(db.shorten_name('devdays_app_project_students'))
-
-        # Removing M2M table for field comments on 'Project'
-        db.delete_table(db.shorten_name('devdays_app_project_comments'))
+        # Deleting field 'Event.state'
+        db.delete_column('devdays_app_event', 'state')
 
 
     models = {
@@ -172,7 +64,9 @@ class Migration(SchemaMigration):
         'devdays_app.event': {
             'Meta': {'object_name': 'Event'},
             'date': ('django.db.models.fields.DateTimeField', [], {}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'length': ('django.db.models.fields.IntegerField', [], {'default': '3'}),
+            'state': ('django.db.models.fields.CharField', [], {'default': "'initial'", 'max_length': '100', 'null': 'True', 'blank': 'True'})
         },
         'devdays_app.group': {
             'Meta': {'object_name': 'Group'},
@@ -188,6 +82,13 @@ class Migration(SchemaMigration):
             'likes': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'LikeUserProfile'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['devdays_app.UserProfile']"}),
             'link': ('django.db.models.fields.CharField', [], {'max_length': '1024', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '1024'})
+        },
+        'devdays_app.notification': {
+            'Meta': {'object_name': 'Notification'},
+            'date': ('django.db.models.fields.DateTimeField', [], {}),
+            'event': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['devdays_app.Event']", 'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'text': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})
         },
         'devdays_app.project': {
             'Meta': {'object_name': 'Project'},
