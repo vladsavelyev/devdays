@@ -12,9 +12,10 @@ urlpatterns = patterns(
     url(r'^openid/', include('django_openid_auth.urls')),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     
-    url(r'^event/' + EVENT_PATTERN, 'devdays_app.events.views.index'),
+    url(r'^event/' + EVENT_PATTERN, 'devdays_app.views.event_view'),
     url(r'^events/?', 'devdays_app.views.events_view'),
-    
+    url(r'^start_event/' + EVENT_PATTERN, 'devdays_app.views.start_event'),
+
     url(r'^idea/(?P<ideaId>\d+)/?', 'devdays_app.ideas.views.index'),
     url(r'^ideas/?', 'devdays_app.ideas.views.list_items'),
     

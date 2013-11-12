@@ -66,37 +66,46 @@ def event_ongoing(request, event):
 
 
 def event_ideas(request, event):
+    ideas = Idea.objects \
+                .annotate(num_likes=Count('likes')) \
+                .order_by('-num_likes', '-id')
     return render_to_response('event_ideas.html', {
         'user': request.user,
         'event': event,
         'events': Event.objects.all(),
-        'ideas': Idea.objects.all().order_by('-id')
+        'ideas': ideas
     })
 
 
 def event_project_selection(request, event):
+    ideas = Idea.objects \
+                .annotate(num_likes=Count('likes')) \
+                .order_by('-num_likes', '-id')
     return render_to_response('event_project_selection.html', {
         'user': request.user,
         'event': event,
         'events': Event.objects.all(),
-        'ideas': Idea.objects.all().order_by('-id')
+        'ideas': ideas
     })
 
-#def projects(request):
-#    name_title = u'Проекты'
-#    projects = Project.objects.all()
-#    return render_to_response('projects.html', locals())
-#
-#
-#def ideas(request):
-#    if request.method == 'GET':
-#        return render_to_response('ideas.html', {
-#            'ideas': Idea.objects.all()
-#        })
-#
-#    else:
-#        raise Exception('Creating is not implemented')
-#
+
+def start_event(request, month, year, ideas_num=10):
+    e = Event.objects.filter(date__month=month).filter(date__year=year)
+    if not e.exists():
+        raise Http404()
+    e = e.get()
+
+    ideas = Idea.objects \
+                .annotate(num_likes=Count('likes')) \
+                .order_by('-num_likes', '-id')[:ideas_num]
+    for i in ideas:
+        p = Project(idea=i, event=e)
+        p.save()
+
+    e.state = 'ongoing'
+
+    return redirect('/event/%s_%s' % (month, year))
+
 
 def project_view(request, id):
     return render_to_response('project.html')

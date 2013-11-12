@@ -39,6 +39,9 @@ class Event(models.Model):
     state = models.CharField(max_length=100, blank=True, null=True, default='initial')
         # initial | selection | ongoing | past
 
+    def get_link(self):
+        return self.date.strftime('%m_%Y')
+
     def __str__(self):
         return "Event %s" % str(self.date)
 
