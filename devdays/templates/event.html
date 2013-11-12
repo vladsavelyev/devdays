@@ -4,15 +4,33 @@
 
 {% block header %}Dev Days {{ event.date|date:'N Y' }}{% endblock %}
 
+{% block description %}
+    <hr style="background-color: black">
+
+    {% if notifications %}
+    <b>События:</b><br>
+    {% for notification in notifications %}
+        <p>{{ notification.text }}</p>
+    {% endfor %}
+    {% endif %}
+{% endblock %}
+
 {% block contents %}
     <div class="row">   <p>
     {% for idea in ideas  %}
-        <div class="col-md-4">
-            <h4><a href="idea/{{ idea.id }}">{{ idea.name }}</a></h4>
-            {% if idea.autor %}
-            <p>Преложено: <a href="{{ idea.autor.user.username }}">{{ idea.autor.name }} {{ idea.autor.surname }}</a></p>
-            {% endif %}
-            <p>{{ idea.description|truncatewords:40 }}</p>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <b><a style="font-size: 1.3em;" href="idea/{{ idea.id }}">{{ idea.name }}</a></b>
+                {% if idea.autor %}
+                &nbsp;&nbsp;&nbsp;<a style="color: darkgray;"
+                                     href="{{ idea.autor.user.username }}">{{ idea.autor.user.first_name }}
+                    {{ idea.autor.user.last_name }}</a>
+                {% endif %}
+
+                <p>{{ idea.description|truncatewords:40 }}</p>
+
+                <span style="float: right;">likes: {{ idea.likes.count }}</span><span style="clear: both;"></span><br>
+            </div>
         </div>
     {% endfor %}
     </div>

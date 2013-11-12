@@ -11,7 +11,6 @@ def index(request):
     return event_view(event.id, request)
 
 
-# we have to remove it
 def event_view(event_id, request):
     # если ивент идет:
     # список проектов
@@ -27,6 +26,22 @@ def event_view(event_id, request):
         'ideas': Idea.objects.all()
     })
 
+
+#def projects(request):
+#    name_title = u'Проекты'
+#    projects = Project.objects.all()
+#    return render_to_response('projects.html', locals())
+#
+#
+#def ideas(request):
+#    if request.method == 'GET':
+#        return render_to_response('ideas.html', {
+#            'ideas': Idea.objects.all()
+#        })
+#
+#    else:
+#        raise Exception('Creating is not implemented')
+#
 
 def project_view(request, id):
     return render_to_response('project.html')
