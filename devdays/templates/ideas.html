@@ -3,14 +3,17 @@
 {% block title %}Ideas{% endblock %}
 
 {% block contents %}
-    <div class="row">   <p>
+     <div class="row"> 
     {% for idea in ideas  %}
-        <div class="col-md-4">
+        <a href="#1">
+        <div class="col-md-4 idea_block">
             <h4>{{ idea.name }}</h4>
             <p>{{ idea.autor }}</p>
-            <p>{{ idea.description|truncatewords:"20" }}</p>
+            <p class="idea_description">{{ idea.description|truncatewords:"20" }}</p>
             <p><a class="btn btn-default" href="{{ idea.link }}" role="button">View details &raquo;</a></p>
         </div>
+        </a>
     {% endfor %}
     </div>
+    
 {% endblock %}
