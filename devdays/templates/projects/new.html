@@ -1,17 +1,14 @@
-{% extends "base.html" %}
-
-{% block title %} Заявка на проект {% endblock %}
-
-{% block contents %}
-
-    <div class="row">   <p>
-    {% for idea in ideas  %}
-        <div class="col-md-4">
-            <h4>{{ idea.name }}</h4>
-            <p>{{ idea.autor }}</p>
-            <p>{{ idea.description }}</p>
-        </div>
-    {% endfor %}
-    </div>
-
+{% extends 'base.html' %}
+{% block title %}
+    Новая идея.
+{% endblock %}
+{% block contetnt %}
+   <center> <h1> Добавь новую идею!!!</h1>
+       <form action="" method="POST">
+            <table>
+                {{ form.as_table }}
+            </table>
+           <input type="submit" value="Отправить">
+       </form>
+   </center>
 {% endblock %}

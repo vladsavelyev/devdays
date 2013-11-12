@@ -8,5 +8,3 @@ class CreateIdea(forms.Form):
     description = CharField(widget=Textarea, initial=u'Введите описание')
     autor = CharField()
     link = URLField(required=False)
-
-print(CreateIdea())

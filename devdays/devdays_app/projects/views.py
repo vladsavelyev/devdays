@@ -22,6 +22,6 @@ def new(request):
             Idea.objects.create(**cd)
         else:
             form = CreateIdea()
-            return render_to_response('createidea.html', {'form': form})
+            return render_to_response('projects/new.html', {'form': form})
     return HttpResponse()
 
