@@ -45,7 +45,7 @@ def user_view(request, username):
     u = User.objects.get(username=username)
     return render_to_response('user.html', {
         'user': u,
-        'events': Event.objects.all(),
+        'events': Event.objects.all().order_by('-date'),
     })
 
 
@@ -60,7 +60,7 @@ def event_ongoing(request, event):
         'user': request.user,
         'event': event,
         'notifications': ns,
-        'events': Event.objects.all(),
+        'events': Event.objects.all().order_by('-date'),
         'ideas': ideas,
     })
 
@@ -72,7 +72,7 @@ def event_ideas(request, event):
     return render_to_response('event_ideas.html', {
         'user': request.user,
         'event': event,
-        'events': Event.objects.all(),
+        'events': Event.objects.all().order_by('-date'),
         'ideas': ideas
     })
 
@@ -84,7 +84,7 @@ def event_project_selection(request, event):
     return render_to_response('event_project_selection.html', {
         'user': request.user,
         'event': event,
-        'events': Event.objects.all(),
+        'events': Event.objects.all().order_by('-date'),
         'ideas': ideas
     })
 
