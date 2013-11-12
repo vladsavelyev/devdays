@@ -16,99 +16,27 @@
 {% endblock %}
 
 {% block contents %}
-    <p>
-    <center>
-        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-            Offer idea
-        </button>
+    <h4> Проекты</h4>
+    <table class="table table-hover table-condensed">
+        <thead>
+        <tr>
+            <th> Тема </th>
+            <th> Описание </th>
+            <th> Участники </th>
+        </tr>
+        </thead>
 
-        {% if user.is_staff or user.is_supersuser %}
-            <a type="button"
-               class="btn btn-success btn-lg"
-               id="start_btn"
-               style="margin-left: 20px;"
-               href="/start_event/{{ event.get_link }}">
-                Start with top ideas
-            </a >
-        {% endif %}
-    </center>
+    {% for proj in event.project_set.all %}
+        <tr>
+            <td style="padding-right: 40px;">{{ proj.idea.name }}</td>
+            <td style="padding-right: 40px;">{{ proj.idea.description|truncatewords:"10" }} </td>
+            <td>
+                {% for student in proj.objects.students %}
+                    <img src="/static/picture_users/m/0{{ forloop.counter }}.png">
+                {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
 
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Offer idea</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="text" id="idea_subject" class="form-control" placeholder="Subject">
-                    <br>
-                    <textarea id="idea_description" class="form-control" style="height: 200px;"
-                              placeholder="Description"></textarea>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="submit_new_form">Close
-                    </button>
-                    <button type="button" id='submit_idea' class="btn btn-primary">Save changes</button>
-                </div>
-
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    </p>
-
-    <div class="row" id="ideas_row"><p>
-        {% for idea in ideas %}
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <b><a style="font-size: 1.3em;" href="idea/{{ idea.id }}">{{ idea.name }}</a></b>
-                    {% if idea.autor %}
-                        &nbsp;&nbsp;&nbsp;<a style="color: darkgray;"
-                                             href="{{ idea.autor.user.username }}">{{ idea.autor.user.first_name }}
-                        {{ idea.autor.user.last_name }}</a>
-                    {% endif %}
-
-                    <p>{{ idea.description|truncatewords:40 }}</p>
-
-                    <span style="float: right;">likes: {{ idea.likes.count }}</span><span
-                        style="clear: both;"></span><br>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-
-    <script>
-        $('#submit_idea').click(function () {
-            $.ajax({
-                type: 'GET',
-                url: 'http://127.0.0.1:8000/_ajax_new_idea',
-                dataType: 'text',
-                data: 'all=' + $('#idea_subject').val() + '&text=' + $('#idea_description').val(),
-                success: function (data) {
-                    $('#myModal').modal('hide');
-                    $('#ideas_row').prepend('<div class="panel panel-default"> \
-                        <div class="panel-body"> \
-                            <b><a style="font-size: 1.3em;" href="idea/">' + $('#idea_subject').val() + '</a></b> \
-                            &nbsp;&nbsp;&nbsp;<a style="color: darkgray;" \
-                                                 href="">Vlad Saveliev</a> \
-                            <p>' + $('#idea_description').val() + '</p> \
-                            <span style="float: right;">likes: 0</span><span style="clear: both;"></span><br> \
-                        </div> \
-                    </div>');
-
-                },
-                error: function (data) {
-                    $('#myModal').modal('hide');
-                    {#                  $("#MESSAGE-DIV").html("Something went wrong!");#}
-                }
-            });
-            return false;
-        });
-    </script>
 {% endblock %}
