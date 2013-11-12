@@ -55,7 +55,6 @@ def event_ongoing(request, event):
     ideas = Idea.objects \
                 .annotate(num_likes=Count('likes')) \
                 .order_by('-num_likes', '-id')
-
     return render_to_response('event_ongoing.html', {
         'user': request.user,
         'event': event,
