@@ -62,8 +62,17 @@ class Project(models.Model):
     comments = models.ManyToManyField(Comment, blank=True, null=True)
     link = models.CharField(max_length=1024, blank=True, null=True)
 
-    def get_github_stats(self):
-        pass
+    def get_github_opened(self):
+        try:
+            return getGitTasks(self.link)[0]
+        except:
+            return 0
+
+    def get_github_closed(self):
+        try:
+            return getGitTasks(self.link)[1]
+        except:
+            return 0
         
     def __str__(self):
         return "Project (event: %s, idea: %s)" % (str(self.event.date), str(self.idea))

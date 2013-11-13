@@ -4,8 +4,8 @@ import devdays_app.models #it is necessary!
 from devdays_app.users.tools import getGravatarUrl
 
 
-def index(request, userId):
-    user = User.regular_users.get(id=int(userId))
+def index(request, username):
+    user = User.objects.get(username=username)
     data = { 
         'user': user,
         'gravatarUrl': getGravatarUrl(request, user.email, 128)
@@ -14,5 +14,5 @@ def index(request, userId):
 
 
 def list_users(request):
-    data = { 'users': User.regular_users }
+    data = { 'users': User.objects.all() }
     return render_to_response('users.html', data)

@@ -34,6 +34,7 @@
             <td style="padding-right: 40px;
                        padding-bottom: 20px;">
                 {% if proj.link %}<a href="{{ proj.link }}">{{ proj.link }}</a>
+{#                    <br>{{ proj.get_github_opened }}#}
                 {% endif %}
             </td>
 
@@ -43,7 +44,7 @@
                        padding-bottom: 20px;">
                 {% for st in proj.students.all %}
 {#                    <img height="50px" src="/static/picture_users/m/{{ 4 }}.png">#}
-                        <a style="color: darkgray;" href="/user/{{ st.username }}">{{ st.first_name }}&nbsp;{{ st.last_name }}</a>&nbsp;&nbsp;
+                        <a style="color: darkgray;" href="/user/{{ st.id }}">{{ st.first_name }}&nbsp;{{ st.last_name }}</a>&nbsp;&nbsp;
                 {% endfor %}
             </td>
         </tr>

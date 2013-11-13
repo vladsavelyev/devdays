@@ -8,6 +8,9 @@ EVENT_PATTERN = r'(?P<month>\d{2})_(?P<year>\d{4})/?'
 
 urlpatterns = patterns(
     '',
+    url(r'^user/(?P<id>\d+)', 'devdays_app.views.user_view'),
+    url(r'^users/?', 'devdays_app.views.users_view'),
+
     url(r'^/?$', 'devdays_app.views.index_view'),
     url(r'^about/?$', 'devdays_app.static.views.about'),
     url(r'^contacts/?$', 'devdays_app.static.views.contacts'),
@@ -26,10 +29,7 @@ urlpatterns = patterns(
     url(r'^ideas/?', 'devdays_app.ideas.views.list_items'),
     
     url(r'^project/(?P<id>\d+)/?', 'devdays_app.views.project_view'),
-    
-    url(r'^user/(?P<userId>\d+)/?', 'devdays_app.users.views.index'),
-    url(r'^users/?', 'devdays_app.users.views.list_users'),
-    
+
     url(r'^_ajax_new_idea/?', 'devdays_app.views.ajax_new_idea'),
     
     url(r'^admin/', include(admin.site.urls)),
