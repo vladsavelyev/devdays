@@ -29,16 +29,16 @@
 
                     <p>{{ prj.idea.description }}</p>
 
-                    {% for st in prj.students.all %}
-                        &nbsp;&nbsp;&nbsp;
-                        <a style="color: darkgray;" href="/user/{{ st.username }}">{{ st.first_name }}
-                        {{ st.last_name }}</a>
-                    {% endfor %}
+{#                    {% for st in prj.students.all %}#}
+{#                        &nbsp;&nbsp;&nbsp;#}
+{#                        <a style="color: darkgray;" href="/user/{{ st.username }}">{{ st.first_name }}#}
+{#                        {{ st.last_name }}</a>#}
+{#                    {% endfor %}#}
 
                     <span style="float: right;">
                         <small>Participants: <span id="participants_{{ prj.id }}_span">
                             {% for st in prj.students.all %}
-                                {{ st.first_name }} {{ st.last_name }}
+                                {{ st.first_name }} {{ st.last_name }}{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                         </span></small>&nbsp;
                         <button type="button" class="btn btn-default btn-xs" id='participate_button'
@@ -52,6 +52,11 @@
     </div>
 
     <script>
+    if(typeof(String.prototype.trim) === "undefined") {
+        String.prototype.trim = function() {
+            return String(this).replace(/^\s+|\s+$/g, '');
+        };
+    }
 
     function participate_click(prj_id) {
         $.ajax({
@@ -59,8 +64,8 @@
             dataType: 'text',
             data: '',
             success: function (data) {
-                participants = $('#participants_' + prj_id + '_span').html();
-                $('#participants_' + prj_id + '_span').html(participants + ' ' + {{ user.last_name }});
+                participants = $('#participants_' + prj_id + '_span').html().trim();
+                $('#participants_' + prj_id + '_span').html(participants + ', ' + '{{ user.first_name }} {{ user.last_name }}');
             },
         });
     }

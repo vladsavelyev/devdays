@@ -1,5 +1,6 @@
 # coding=utf-8
 import datetime
+import json
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
@@ -134,11 +135,11 @@ def like_idea(request, idea_id):
     else:
         i.likes.add(request.user)
         i.save()
-        return HttpResponse()
+        return HttpResponse(i.id)
 
 
-def participate(request, project_id):
-    p = Project.objects.get(project_id)
+def participate(request, prj_id):
+    p = Project.objects.get(id=prj_id)
     if p.students.all().filter(id=request.user.id).exists():
         return HttpResponseBadRequest()
     else:
@@ -171,7 +172,7 @@ def ajax_new_idea(request):
 
     print 'idea added'
 
-    return HttpResponse()
+    return HttpResponse(idea.id)
 
     #form = IdeaForm(request.POST or None)
     #

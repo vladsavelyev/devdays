@@ -53,7 +53,7 @@
                 {% if not user.is_authenticated %}
                     <a class="btn btn-success" href='/openid/login'>Sign in</a>
                 {% else %}
-                    <a href="user/{{ user.username }}">{{ user.username }}</a>
+                    <a href="user/{{ user.username }}">{{ user.first_name }} {{ user.last_name }}</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="btn btn-success" href="/logout">log out</a>
                 {% endif %}

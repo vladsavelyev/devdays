@@ -19,6 +19,7 @@
 {% block event_contents %}
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -36,7 +37,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="submit_new_form">Close
                     </button>
-                    <button type="button" onclick='submit_idea' class="btn btn-primary">Save changes</button>
+                    <button type="button" onclick='submit_idea()' class="btn btn-primary">Save changes</button>
                 </div>
 
             </div>
@@ -48,15 +49,14 @@
 
     <div class="row" id="ideas_row"><p>
 {#        <div style="margin-left: 15px;"><h4>Идеи</h4></div>#}
-        <br>
         {% for idea in ideas %}
+            <br>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <b><a style="font-size: 1.3em;" href="/idea/{{ idea.id }}">{{ idea.name }}</a></b>
                     {% if idea.autor %}
                         &nbsp;&nbsp;&nbsp;<a style="color: darkgray;"
-                                             href="/user/{{ idea.autor.username }}">{{ idea.autor.first_name }}
-                        {{ idea.autor.last_name }}</a>
+                                             href="/user/{{ idea.autor.username }}">{{ idea.autor.first_name }} {{ idea.autor.last_name }}</a>
                     {% endif %}
 
                     <p>{{ idea.description }}</p>
@@ -68,7 +68,6 @@
 
                     </span>
                     <span style="clear: both;"></span>
-                <br>
                 </div>
             </div>
         {% endfor %}
@@ -85,6 +84,7 @@
                 $('#idea_' + idea_id + '_likes_span').html(likes + 1);
             },
         });
+        $('.new_added').html(1);
     }
 
     function participate_click(idea_id) {
@@ -102,20 +102,29 @@
     function submit_idea() {
         $.ajax({
             type: 'GET',
-            url: 'http://127.0.0.1:8000/_ajax_new_idea',
+            url: '/_ajax_new_idea',
             dataType: 'text',
             data: 'all=' + $('#idea_subject').val() + '&text=' + $('#idea_description').val(),
             success: function (data) {
                 $('#myModal').modal('hide');
-                $('#ideas_row').prepend('<div class="panel panel-default"> \
+                $('.new_added').removeClass('new_added');
+
+                $('#ideas_row').prepend('<br><div class="panel panel-default" style="margin-bottom: 10px;"> \
                     <div class="panel-body"> \
-                        <b><a style="font-size: 1.3em;" href="idea/">' + $('#idea_subject').val() + '</a></b> \
-                        &nbsp;&nbsp;&nbsp;<a style="color: darkgray;" \
-                                             href="">Vlad Saveliev</a> \
+                        <b><a style="font-size: 1.3em;" href="/idea/' + data + '">' + $('#idea_subject').val() + '</a></b>' +
+                        '&nbsp;&nbsp;&nbsp;<a style="color: darkgray;" href="/user/{{ idea.autor.username }}">' +
+                                       '{{ user.first_name }} {{ user.last_name }}' + '</a> \
                         <p>' + $('#idea_description').val() + '</p> \
-                        <span style="float: right;">likes: 0</span><span style="clear: both;"></span><br> \
+                        \
+                        <span style="float: right;">\
+                            <small>Likes: <span id="idea_"' + data + '_likes_span" class="new_added">0</span></small>&nbsp;\
+                            <button type="button" class="btn btn-default btn-xs" id="like_button"\
+                                    onclick="like_click(' + data + ')">+ 1</button>\
+                        </span>\
+                        \
+                        <span style="clear: both;"></span><br> \
                     </div> \
-                </div>');
+                </div> ');
 
             },
             error: function (data) {
