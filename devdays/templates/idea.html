@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
+
 {% block title %}{{ idea.name }}{% endblock %}
 
+{% block header %}{{ idea.name }}{% endblock %}
+
 {% block contents %}
-    <h2>{{ idea.name }}</h2>
     <p>{{ idea.description }}</p>
-    <p>{{ idea.autor }}</p>
-    <p>{{ idea.likes.all.count }}</p>
+    <p>Автор <a href="/user/{{ idea.autor.username }}">{{ idea.autor.first_name }} {{ idea.autor.last_name }}</a>.</p>
+    <p>Лайки: {{ idea.likes.all.count }}</p>
 
 {% endblock %}

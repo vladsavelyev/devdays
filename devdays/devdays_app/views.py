@@ -18,7 +18,7 @@ def index_view(request):
         e = active_event.get()
     else:
         e = Event.objects.filter(date__lte=datetime.datetime.today())\
-                         .order_by('date')[0]
+                         .order_by('-date')[0]
 
     return event_view(request,
                       e.date.month,
@@ -91,7 +91,7 @@ def event_project_selection(request, event):
     })
 
 
-def start_selection(request, month, year, ideas_num=10):
+def start_selection(request, month, year, like_threshold=1, ideas_num=5):
     e = Event.objects.filter(date__month=month).filter(date__year=year)
     if not e.exists():
         raise Http404()
@@ -102,6 +102,7 @@ def start_selection(request, month, year, ideas_num=10):
 
     ideas = Idea.objects \
                 .annotate(num_likes=Count('likes')) \
+                .filter(num_likes__gte=like_threshold) \
                 .order_by('-num_likes', '-id')[:ideas_num]
     for i in ideas:
         p = Project(idea=i, event=e)
@@ -186,4 +187,10 @@ def ajax_new_idea(request):
     #else:
     #    msg = "GET petitions are not allowed for this view."
 
+
+def idea_view(request, id):
+    idea = Idea.objects.get(id=id)
+    return render_to_response('idea.html', {
+        'idea': idea,
+    })
 

@@ -52,7 +52,7 @@
         {% for idea in ideas %}
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <b><a style="font-size: 1.3em;" href="idea/{{ idea.id }}">{{ idea.name }}</a></b>
+                    <b><a style="font-size: 1.3em;" href="/idea/{{ idea.id }}">{{ idea.name }}</a></b>
                     {% if idea.autor %}
                         &nbsp;&nbsp;&nbsp;<a style="color: darkgray;"
                                              href="/user/{{ idea.autor.username }}">{{ idea.autor.first_name }}

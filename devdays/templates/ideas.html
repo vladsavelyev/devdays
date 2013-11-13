@@ -5,7 +5,7 @@
 {% block contents %}
      <div class="row"> 
     {% for idea in ideas  %}
-        <a href="#1">
+        <a href="/idea/{{ idea.id }}">
         <div class="col-md-4 idea_block">
             <h4>{{ idea.name }}</h4>
             <p>{{ idea.autor }}</p>

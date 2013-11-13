@@ -22,7 +22,7 @@ urlpatterns = patterns(
     url(r'^like_idea/(?P<idea_id>\d+)/?', 'devdays_app.views.like_idea'),
     url(r'^participate/(?P<prj_id>\d+)/?', 'devdays_app.views.participate'),
 
-    url(r'^idea/(?P<ideaId>\d+)/?', 'devdays_app.ideas.views.index'),
+    url(r'^idea/(?P<id>\d+)/?', 'devdays_app.views.idea_view'),
     url(r'^ideas/?', 'devdays_app.ideas.views.list_items'),
     
     url(r'^project/(?P<id>\d+)/?', 'devdays_app.views.project_view'),

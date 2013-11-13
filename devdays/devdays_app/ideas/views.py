@@ -11,3 +11,4 @@ def list_items(request):
     ideas =  Idea.objects.all()
     data =  { 'ideas' : ideas }
     return render_to_response('ideas.html', data)
+
