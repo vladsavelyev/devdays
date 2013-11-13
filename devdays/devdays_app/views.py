@@ -42,6 +42,41 @@ def event_view(request, month, year):
         return HttpResponseBadRequest('bad satus')
 
 
+#def user_view(request, username):
+#    u = User.objects.get(username=username)
+#    return render_to_response('user.html', {
+#        'user': u,
+#        'events': Event.objects.all().order_by('-date'),
+#    })
+
+from devdays_app.users.tools import getGravatarUrl
+
+
+def user_view(request, id):
+    #users = dict([(u, u.username.encode('ascii', 'ignore')) for u in User.objects.all()[:]])
+    #user = users.get(username, None)
+    #if user:
+    try:
+        user = User.objects.get(id=id)
+    except:
+        return Http404()
+
+    data = {
+        'user': user,
+        'events': Event.objects.all().order_by('-date'),
+        'gravatarUrl': getGravatarUrl(request, user.email, 128)
+    }
+    return render_to_response('user.html', data)
+
+
+def users_view(request):
+    data = {
+        'users': User.objects.all(),
+        'events': Event.objects.all().order_by('-date'),
+    }
+    return render_to_response('users.html', data)
+
+
 def event_ongoing(request, event):
     ns = Notification.objects.filter(event=event)
 

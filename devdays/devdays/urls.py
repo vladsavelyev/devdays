@@ -8,7 +8,8 @@ EVENT_PATTERN = r'(?P<month>\d{2})_(?P<year>\d{4})/?'
 
 urlpatterns = patterns(
     '',
-    url(r'^user/(?P<userId>\d+)', 'devdays_app.users.views.index'),
+    url(r'^user/(?P<id>\d+)', 'devdays_app.views.user_view'),
+    url(r'^users/?', 'devdays_app.views.users_view'),
 
     url(r'^/?$', 'devdays_app.views.index_view'),
     url(r'^about/?$', 'devdays_app.static.views.about'),
