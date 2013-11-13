@@ -12,7 +12,7 @@ def get_raw_page(giturl):
     url = giturl + '/pulse'
     if url in pages:
         page, date_loaded = pages[url]
-        if datetime.now() - date_loaded < timedelta(seconds=10):
+        if datetime.now() - date_loaded < timedelta(minutes=2):
             return page
 
     page = html.fromstring(urllib.urlopen(url).read())
@@ -44,6 +44,7 @@ def get_git_commits(giturl):
         return int(page.xpath('//div[@class="section diffstat-summary"]/strong[2]/text()')[0].split(' ')[0])
     except:
         raise
+
 
 def get_gravatar_url(request, email, size=80):
     gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
