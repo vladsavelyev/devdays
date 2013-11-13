@@ -42,14 +42,7 @@ def event_view(request, month, year):
         return HttpResponseBadRequest('bad satus')
 
 
-#def user_view(request, username):
-#    u = User.objects.get(username=username)
-#    return render_to_response('user.html', {
-#        'user': u,
-#        'events': Event.objects.all().order_by('-date'),
-#    })
-
-from devdays_app.users.tools import getGravatarUrl
+from devdays_app.tools import get_gravatar_url
 
 
 def user_view(request, id):
@@ -64,7 +57,7 @@ def user_view(request, id):
     data = {
         'user': user,
         'events': Event.objects.all().order_by('-date'),
-        'gravatarUrl': getGravatarUrl(request, user.email, 128)
+        'gravatarUrl': get_gravatar_url(request, user.email, 128)
     }
     return render_to_response('user.html', data)
 
@@ -181,10 +174,6 @@ def project_view(request, id):
 
 def ideas_view(request):
     return render_to_response('ideas.html')
-
-
-def users_view(request):
-    return render_to_response('users.html')
 
 
 def ajax_new_idea(request):

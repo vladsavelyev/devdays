@@ -34,7 +34,9 @@
             <td style="padding-right: 40px;
                        padding-bottom: 20px;">
                 {% if proj.link %}<a href="{{ proj.link }}">{{ proj.link }}</a>
-{#                    <br>{{ proj.get_github_opened }}#}
+                    <br>issues: {{ proj.get_github_opened }} open,
+                    {{ proj.get_github_closed }} closed,
+                    {{ proj.get_github_commits }} commits.
                 {% endif %}
             </td>
 

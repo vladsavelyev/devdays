@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'devdays_app',
     'django.contrib.admin',
     'django_openid_auth',
-    #'south',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
