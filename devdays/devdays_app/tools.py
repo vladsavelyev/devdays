@@ -41,11 +41,9 @@ def get_git_closed(giturl):
 def get_git_commits(giturl):
     page = get_raw_page(giturl)
     try:
-        elop = page.xpath('//a[@href="#new-issues"]/span[@class="num"]/span[@class="octicon octicon-issue-opened"]')[0]
+        return int(page.xpath('//div[@class="section diffstat-summary"]/strong[2]/text()')[0].split(' ')[0])
     except:
         raise
-    return int(page.xpath('//div[@class="section diffstat-summary"]/strong[2]/text()')[0].split(' ')[0])
-
 
 def get_gravatar_url(request, email, size=80):
     gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"

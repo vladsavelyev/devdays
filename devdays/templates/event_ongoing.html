@@ -34,9 +34,9 @@
             <td style="padding-right: 40px;
                        padding-bottom: 20px;">
                 {% if proj.link %}<a href="{{ proj.link }}">{{ proj.link }}</a>
-                    <br>issues: {{ proj.get_github_opened }} open,
-                    {{ proj.get_github_closed }} closed,
-                    {{ proj.get_github_commits }} commits.
+                    <br>Issues: {% if proj.get_git_opened != -1 %}{{ proj.get_git_opened }} open, {% endif %}
+                    {% if proj.get_git_closed != -1 %}{{ proj.get_git_closed }} closed, {% endif %}
+                    {% if proj.get_git_commits != -1 %}{{ proj.get_git_commits }} commits.{% endif %}
                 {% endif %}
             </td>
 

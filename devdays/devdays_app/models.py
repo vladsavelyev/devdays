@@ -73,21 +73,21 @@ class Project(models.Model):
     closed_issues = models.IntegerField(blank=True, null=True)
     commits = models.IntegerField(blank=True, null=True)
 
-    def get_github_commits(self):
+    def get_git_commits(self):
         try:
             return get_git_commits(self.link)
         except:
             return -1
 
-    def get_github_opened(self):
+    def get_git_closed(self):
         try:
             return get_git_opened(self.link)
         except:
             return -1
 
-    def get_github_closed(self):
+    def get_git_opened(self):
         try:
-            return get_git_closed(self.link)
+            return get_git_opened(self.link)
         except:
             return -1
 
