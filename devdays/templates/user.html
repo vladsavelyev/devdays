@@ -5,10 +5,24 @@
 {% block header %}{% endblock %}
 
 {% block description %}
-    <div style="width: 100%; height: 100px">
-        <div style="float: left; width: 100px; height: 100px"><img src="{{ gravatarUrl }}" /> </div>
+    <div style="width: 100%; height: 150px">
+        <div style="float: left; width: 130px; height: 100px"><img src="{{ gravatarUrl }}" /> </div>
+    
+    <div style="float: left; width: 400px; margin-left: 20px">
+        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        <span>{{ user.email }}</span>
     </div>
-    <br>
-    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-    <div style="float: left; width: 400px; margin-left: 20px"><span>{{ user.email }}</span></div>
+    
+    </div>
+    
+    {% if userIdeas.count > 0 %}
+        <div>
+            <h3>Автор проектов: </h3>
+            <a href="/idea/{{ userIdeas.0.id }}"> {{ userIdeas.0.name }} </a>   
+            {% for idea in userIdeas.tail  %}
+                , <a href="/idea/{{ idea.id }}"> {{ idea.name }} </a>  
+            {% endfor %}
+        </div>
+    {% endif %}
+    
 {% endblock %}
