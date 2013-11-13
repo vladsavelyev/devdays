@@ -1,23 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from devdays_app.tools import get_git_commits, get_git_closed, get_git_opened
 
 
 class Comment(models.Model):
-    pass
-    #text = models.TextField(blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
 
-    #def __str__(self):
-    #    return "%s" % self.text
+    def __str__(self):
+        return "%s" % self.text
 
 
 class Group(models.Model):
     name = models.CharField(max_length=1024, blank=True, null=True)
     year = models.IntegerField(blank=True, null=True)
 
-    def __str__(self):
-        return "%s %d" % (self.name, self.year)
+    def __unicode__(self):
+        return u"%s %d" % (self.name, self.year)
 
+    def __str__(self):
+        return u"%s %d" % (self.name, self.year)
 
 
 class Idea(models.Model):
@@ -30,8 +31,11 @@ class Idea(models.Model):
     def likes_n(self):
         return self.likes.count()
 
+    def __unicode__(self):
+        return u"%s" % self.name
+
     def __str__(self):
-        return "%s" % self.name
+        return u"%s" % self.name
 
 
 class Event(models.Model):
@@ -43,8 +47,11 @@ class Event(models.Model):
     def get_link(self):
         return self.date.strftime('%m_%Y')
 
+    def __unicode__(self):
+        return u"Event %s" % str(self.date)
+
     def __str__(self):
-        return "Event %s" % str(self.date)
+        return u"Event %s" % str(self.date)
 
 
 class Notification(models.Model):
@@ -62,23 +69,30 @@ class Project(models.Model):
     comments = models.ManyToManyField(Comment, blank=True, null=True)
     link = models.CharField(max_length=1024, blank=True, null=True)
 
-    def get_github_opened(self):
-        try:
-            return getGitTasks(self.link)[0]
-        except:
-            return 0
+    opened_issues = models.IntegerField(blank=True, null=True)
+    closed_issues = models.IntegerField(blank=True, null=True)
+    commits = models.IntegerField(blank=True, null=True)
 
-    def get_github_closed(self):
+    def get_git_commits(self):
         try:
-            return getGitTasks(self.link)[1]
+            return get_git_commits(self.link)
         except:
-            return 0
+            return -1
+
+    def get_git_closed(self):
+        try:
+            return get_git_opened(self.link)
+        except:
+            return -1
+
+    def get_git_opened(self):
+        try:
+            return get_git_opened(self.link)
+        except:
+            return -1
+
+    def __unicode__(self):
+        return u"Project (event: %s, idea: %s)" % (str(self.event.date), str(self.idea))
         
     def __str__(self):
-        return "Project (event: %s, idea: %s)" % (str(self.event.date), str(self.idea))
-
-
-#User.regular_users = User.objects.all().filter(is_staff=False).filter(is_superuser=False)
-#def getFullUserName(self):
-#    return self.first_name + " " + self.last_name
-#User.full_name = getFullUserName
+        return u"Project (event: %s, idea: %s)" % (str(self.event.date), str(self.idea))

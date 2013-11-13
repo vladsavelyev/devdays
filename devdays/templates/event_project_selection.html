@@ -7,7 +7,7 @@
            id="start_btn"
            style="margin-left: 20px; text-decoration: none;"
            href="/start_event/{{ event.get_link }}">
-            Start Dev Days
+           Начать
         </a >
     {% endif %}
 {% endblock %}
@@ -36,13 +36,11 @@
 {#                    {% endfor %}#}
 
                     <span style="float: right;">
-                        <small>Participants: <span id="participants_{{ prj.id }}_span">
-                            {% for st in prj.students.all %}
-                                {{ st.first_name }} {{ st.last_name }}{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
+                        <small>Участники: <span id="participants_{{ prj.id }}_span">
+                            {% for st in prj.students.all %}{{ st.first_name }} {{ st.last_name }}{% if not forloop.last %}, {% endif %}{% endfor %}
                         </span></small>&nbsp;
                         <button type="button" class="btn btn-default btn-xs" id='participate_button'
-                                onclick='participate_click({{ prj.id }})'>Take part</button>
+                                onclick='participate_click({{ prj.id }})'>Участвовать</button>
                     </span>
                     <span style="clear: both;"></span>
                 <br>
@@ -60,12 +58,22 @@
 
     function participate_click(prj_id) {
         $.ajax({
-            url: '/participate/' + prj_id,
+            url: '/participate/' + {{ event.id }} + '_' + prj_id,
             dataType: 'text',
             data: '',
             success: function (data) {
-                participants = $('#participants_' + prj_id + '_span').html().trim();
-                $('#participants_' + prj_id + '_span').html(participants + ', ' + '{{ user.first_name }} {{ user.last_name }}');
+                var ps_span = $('#participants_' + prj_id + '_span');
+                var ps = ps_span.text().trim();
+                ps_span.html(ps + ', {{ user.first_name }} {{ user.last_name }}');
+
+                if (parseInt(data) != -1) {
+                    var old_project_partic_span = $('#participants_' + data + '_span');
+                    var ps = old_project_partic_span.text().trim();
+                    ps = ps.replace(', {{ user.first_name }} {{ user.last_name }}', '');
+                    ps = ps.replace('{{ user.first_name }} {{ user.last_name }},', '');
+                    ps = ps.replace('{{ user.first_name }} {{ user.last_name }}', '');
+                    old_project_partic_span.html(ps);
+                }
             },
         });
     }

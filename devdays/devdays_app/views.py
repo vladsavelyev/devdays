@@ -29,7 +29,7 @@ def index_view(request):
 def event_view(request, month, year):
     e = Event.objects.filter(date__month=month).filter(date__year=year)
     if not e.exists():
-        raise Http404()
+        raise Http404
     e = e.get()
 
     if e.state == 'initial':
@@ -42,14 +42,7 @@ def event_view(request, month, year):
         return HttpResponseBadRequest('bad satus')
 
 
-#def user_view(request, username):
-#    u = User.objects.get(username=username)
-#    return render_to_response('user.html', {
-#        'user': u,
-#        'events': Event.objects.all().order_by('-date'),
-#    })
-
-from devdays_app.users.tools import getGravatarUrl
+from devdays_app.tools import get_gravatar_url
 
 
 def user_view(request, id):
@@ -59,12 +52,12 @@ def user_view(request, id):
     try:
         user = User.objects.get(id=id)
     except:
-        return Http404()
+        raise Http404
 
     data = {
         'user': user,
         'events': Event.objects.all().order_by('-date'),
-        'gravatarUrl': getGravatarUrl(request, user.email, 128)
+        'gravatarUrl': get_gravatar_url(request, user.email, 128)
     }
     return render_to_response('user.html', data)
 
@@ -122,7 +115,7 @@ def event_project_selection(request, event):
 def start_selection(request, month, year, like_threshold=1, ideas_num=5):
     e = Event.objects.filter(date__month=month).filter(date__year=year)
     if not e.exists():
-        raise Http404()
+        raise Http404
     e = e.get()
 
     e.state = 'selection'
@@ -131,13 +124,17 @@ def start_selection(request, month, year, like_threshold=1, ideas_num=5):
     ideas = Idea.objects \
                 .annotate(num_likes=Count('likes')) \
                 .filter(num_likes__gte=like_threshold) \
-                .order_by('-num_likes', '-id')[:ideas_num]
-    for i in ideas:
-        p = Project(idea=i, event=e)
-        p.save()
-        p.students.add(request.user)
-        p.save()
+                .order_by('-num_likes', '-id')
 
+    autors = set([i.autor for i in ideas][:ideas_num])
+
+    for i in ideas:
+        if i.autor in autors:
+            p = Project(idea=i, event=e)
+            p.save()
+            p.students.add(i.autor)
+            p.save()
+            autors.remove(i.autor)
     e.save()
 
     return redirect('/event/%s_%s' % (month, year))
@@ -146,7 +143,7 @@ def start_selection(request, month, year, like_threshold=1, ideas_num=5):
 def start_event(request, month, year):
     e = Event.objects.filter(date__month=month).filter(date__year=year)
     if not e.exists():
-        raise Http404()
+        raise Http404
     e = e.get()
 
     e.state = 'ongoing'
@@ -165,14 +162,26 @@ def like_idea(request, idea_id):
         return HttpResponse(i.id)
 
 
-def participate(request, prj_id):
-    p = Project.objects.get(id=prj_id)
-    if p.students.all().filter(id=request.user.id).exists():
+def participate(request, event_id, prj_id):
+    project = Project.objects.get(id=prj_id)
+    if project.students.all().filter(id=request.user.id).exists():
         return HttpResponseBadRequest()
-    else:
-        p.students.add(request.user)
-        p.save()
-        return HttpResponse()
+
+    try:
+        event = Event.objects.get(id=event_id)
+    except:
+        return HttpResponseBadRequest()
+
+    project_id_to_remove = -1
+    for p in event.project_set.all():
+        for u in p.students.all():
+            if request.user == u:
+                p.students.remove(request.user)
+                project_id_to_remove = p.id
+
+    project.students.add(request.user)
+    project.save()
+    return HttpResponse(project_id_to_remove)
 
 
 def project_view(request, id):
@@ -181,10 +190,6 @@ def project_view(request, id):
 
 def ideas_view(request):
     return render_to_response('ideas.html')
-
-
-def users_view(request):
-    return render_to_response('users.html')
 
 
 def ajax_new_idea(request):

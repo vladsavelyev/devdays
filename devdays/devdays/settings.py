@@ -30,7 +30,12 @@ TEMPLATE_DIRS = 'templates'
 ALLOWED_HOSTS = []
 
 
-# Application definition
+BROKER_URL = 'sqla+sqlite:///celerydb'
+CELERY_RESULT_DBURI = 'sqlite:///celerydb'
+# http://docs.celeryproject.org/en/latest/configuration.html#conf-database-result-backend
+CELERY_SEND_TASK_ERROR_EMAILS = True
+CELERY_SEND_EVENTS = True
+
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -42,7 +47,8 @@ INSTALLED_APPS = (
     'devdays_app',
     'django.contrib.admin',
     'django_openid_auth',
-    #'south',
+    'south',
+    'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -118,3 +124,20 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"), 'static',
 )
+
+
+from datetime import timedelta
+
+CELERY_TIMEZONE = 'UTC'
+
+CELERYBEAT_SCHEDULE = {
+    'parse_github': {
+        'task': 'tasks.parse_github',
+        'schedule': timedelta(seconds=30),
+        'args': ()
+    },
+}
+
+
+import djcelery
+djcelery.setup_loader()
