@@ -18,7 +18,7 @@ class Group(models.Model):
         return u"%s %d" % (self.name, self.year)
 
     def __str__(self):
-        return u"%s %d" % (self.name, self.yeintermediaryar)
+        return u"%s %d" % (self.name, self.year)
 
 
 class Event(models.Model):
@@ -27,7 +27,6 @@ class Event(models.Model):
     length = models.IntegerField(default=3) # it means "duration" 
     state = models.CharField(max_length=100, blank=True, null=True, default='initial')
         # initial | selection | ongoing | past
-    
 
     def get_link(self):
         return self.date.strftime('%m_%Y')
@@ -72,9 +71,9 @@ class Project(models.Model):
     comments = models.ManyToManyField(Comment, blank=True, null=True)
     link = models.CharField(max_length=1024, blank=True, null=True)
 
-    opened_issues = models.IntegerField(blank=True, null=True)
-    closed_issues = models.IntegerField(blank=True, null=True)
-    commits = models.IntegerField(blank=True, null=True)
+    opened_issues = models.IntegerField(blank=True, null=True, default=-1)
+    closed_issues = models.IntegerField(blank=True, null=True, default=-1)
+    commits = models.IntegerField(blank=True, null=True, default=-1)
 
     def get_git_commits(self):
         try:

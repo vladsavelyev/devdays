@@ -42,7 +42,7 @@
                             {% endfor %}
                         </span></small>&nbsp;
                         <button type="button" class="btn btn-default btn-xs" id='participate_button'
-                                onclick='participate_click({{ prj.id }})'>Учавствовать</button>
+                                onclick='participate_click({{ prj.id }})'>Участвовать</button>
                     </span>
                     <span style="clear: both;"></span>
                 <br>
@@ -66,7 +66,11 @@
             success: function (data) {
                 var ps_span = $('#participants_' + prj_id + '_span');
                 var ps = ps_span.text().trim();
-                ps_span.html(ps + ', {{ loggedUser.first_name }} {{ loggedUser.last_name }}');
+                if (ps.length == 0) {
+                    ps_span.html('{{ loggedUser.first_name }} {{ loggedUser.last_name }}');
+                } else {
+                    ps_span.html(ps + ', {{ loggedUser.first_name }} {{ loggedUser.last_name }}');
+                }
 
                 if (parseInt(data) != -1) {
                     var old_project_partic_span = $('#participants_' + data + '_span');

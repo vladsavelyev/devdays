@@ -30,11 +30,13 @@ TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 ALLOWED_HOSTS = []
 
 
-BROKER_URL = 'sqla+sqlite:///celerydb'
-CELERY_RESULT_DBURI = 'sqlite:///celerydb'
-# http://docs.celeryproject.org/en/latest/configuration.html#conf-database-result-backend
-CELERY_SEND_TASK_ERROR_EMAILS = True
-CELERY_SEND_EVENTS = True
+#BROKER_URL = 'amqp://guest:guest@lo calhost:50284//'
+##BROKER_URL = 'sqla+sqlite:///celerydb'
+##CELERY_RESULT_BACKEND = "sqlite"
+#CELERY_RESULT_DBURI = 'sqlite:///celerydb'
+## http://docs.celeryproject.org/en/latest/configuration.html#conf-database-result-backend
+#CELERY_SEND_TASK_ERROR_EMAILS = True
+#CELERY_SEND_EVENTS = True
 
 
 INSTALLED_APPS = (
@@ -48,7 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django_openid_auth',
     'south',
-    'djcelery',
+    #'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -126,18 +128,17 @@ STATICFILES_DIRS = (
 )
 
 
-from datetime import timedelta
+#from datetime import timedelta
+#CELERY_TIMEZONE = 'UTC'
+from devdays_app.tasks import parse_github
+#from devdays_app.models import Project
+#CELERYBEAT_SCHEDULE = {
+#    'parse_github': {
+#        'task': 'tasks.parse_github',
+#        'schedule': timedelta(seconds=30),
+#        'args': ([p.link for p in Project.objects.all()])
+#    },
+#}
 
-CELERY_TIMEZONE = 'UTC'
-
-CELERYBEAT_SCHEDULE = {
-    'parse_github': {
-        'task': 'tasks.parse_github',
-        'schedule': timedelta(seconds=30),
-        'args': ()
-    },
-}
-
-
-import djcelery
-djcelery.setup_loader()
+#import djcelery
+#djcelery.setup_loader()
