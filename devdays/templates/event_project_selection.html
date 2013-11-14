@@ -1,7 +1,7 @@
 -{% extends 'event.html' %}
 
 {% block buttons %}
-    {% if user.is_staff or user.is_supersuser %}
+    {% if loggedUser.is_staff or loggedUser.is_supersuser %}
         <a type="button"
            class="btn btn-success btn-lg"
            id="start_btn"
