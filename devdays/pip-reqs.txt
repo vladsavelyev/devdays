@@ -6,3 +6,4 @@ django-south-admin
 sqlalchemy
 django-autoslug
 django-celery
+lxml
