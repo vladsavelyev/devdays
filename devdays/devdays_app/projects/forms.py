@@ -5,6 +5,6 @@ from django.forms import forms, CharField, URLField, Textarea
 class CreateIdea(forms.Form):
     name = CharField()
     description = CharField(widget=Textarea, initial=u'Введите описание')
-    autor = CharField()
+    author = CharField()
     link = URLField(required=False)
 

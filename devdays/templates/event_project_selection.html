@@ -1,4 +1,4 @@
-{% extends 'event.html' %}
+-{% extends 'event.html' %}
 
 {% block buttons %}
     {% if user.is_staff or user.is_supersuser %}
@@ -20,7 +20,7 @@
                 <div class="panel-body">
                     <b><a style="font-size: 1.3em;" href="project/{{ prj.id }}">{{ prj.idea.name }}</a></b>
 {##}
-{#                    {% if prj.idea.autor %}#}
+{#                    {% if prj.idea.author %}#}
 {#                        &nbsp;&nbsp;&nbsp;#}
 {#                        <a style="color: darkgray;"#}
 {#                           href="/user/{{ prj.idea.autor.username }}">{{ prj.idea.autor.first_name }}#}

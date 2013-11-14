@@ -6,7 +6,7 @@ from django.db.models import Count
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.shortcuts import render_to_response, redirect
 from devdays_app.forms import IdeaForm
-from devdays_app.models import Idea, Project, Event, Notification
+from devdays_app.models import Idea, Project, Event, Notification, ProjectUsers
 
 
 def index_view(request):
@@ -39,7 +39,7 @@ def event_view(request, month, year):
     elif e.state == 'ongoing' or e.state == 'past':
         return event_ongoing(request, e)
     else:
-        return HttpResponseBadRequest('bad satus')
+        return HttpResponseBadRequest('bad status')
 
 
 def event_ongoing(request, event):
@@ -58,7 +58,8 @@ def event_ongoing(request, event):
 
 
 def event_ideas(request, event):
-    ideas = Idea.objects \
+    
+    ideas = event.idea_set.all() \
                 .annotate(num_likes=Count('likes')) \
                 .order_by('-num_likes', '-id')
     return render_to_response('event_ideas.html', {
@@ -90,25 +91,23 @@ def start_selection(request, month, year, like_threshold=1, ideas_num=5):
         raise Http404
     e = e.get()
 
-    e.state = 'selection'
-    e.save()
-
-    ideas = Idea.objects \
+    ideas = e.idea_set.all() \
                 .annotate(num_likes=Count('likes')) \
                 .filter(num_likes__gte=like_threshold) \
                 .order_by('-num_likes', '-id')
 
-    autors = set([i.autor for i in ideas][:ideas_num])
+    authors = set([i.author.id for i in ideas][:ideas_num])
 
     for i in ideas:
-        if i.autor in autors:
+        if i.author.id in authors:
             p = Project(idea=i, event=e)
             p.save()
-            p.students.add(i.autor)
-            p.save()
-            autors.remove(i.autor)
+            pu = ProjectUsers(user=i.author, project=p)
+            pu.save()
+            authors.remove(i.author.id)
+    
+    e.state = 'selection'
     e.save()
-
     return redirect('/event/%s_%s' % (month, year))
 
 
@@ -148,11 +147,11 @@ def participate(request, event_id, prj_id):
     for p in event.project_set.all():
         for u in p.students.all():
             if request.user == u:
-                p.students.remove(request.user)
+                ProjectUsers.objects.get(project=p, user=request.user).delete()
                 project_id_to_remove = p.id
 
-    project.students.add(request.user)
-    project.save()
+    ProjectUsers(project=project, user=request.user).save()
+    
     return HttpResponse(project_id_to_remove)
 
 
@@ -171,7 +170,9 @@ def ajax_new_idea(request):
     print request.GET
     subj = request.GET['all']
     text = request.GET['text']
-    idea = Idea(name=subj, description=text, autor=request.user)
+    eventId = request.GET['event_id']
+    event = Event.objects.get(id=eventId)
+    idea = Idea(name=subj, description=text, author=request.user, event=event)
     idea.save()
 
     print 'idea added'

@@ -54,14 +54,14 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <b><a style="font-size: 1.3em;" href="/idea/{{ idea.id }}">{{ idea.name }}</a></b>
-                    {% ifequal idea.autor user %}
+                    {% ifequal idea.author user %}
                              <span style="float: right;">
                                 <a style="color: black; text-decoration: none;" href="idea/{{ idea.id }}"><i class="glyphicon-pencil"></i></a>
                             </span>
                     {% endifequal %}
-                    {% if idea.autor %}
+                    {% if idea.author %}
                         &nbsp;&nbsp;&nbsp;<a style="color: darkgray;"
-                                             href="/user/{{ idea.autor.id }}">{{ idea.autor.first_name }} {{ idea.autor.last_name }}</a>
+                                             href="/user/{{ idea.author.id }}">{{ idea.author.first_name }} {{ idea.author.last_name }}</a>
                     {% endif %}
 
                     <p>{{ idea.description }}</p>
@@ -109,7 +109,8 @@
             type: 'GET',
             url: '/_ajax_new_idea',
             dataType: 'text',
-            data: 'all=' + $('#idea_subject').val() + '&text=' + $('#idea_description').val(),
+            data: 'all=' + $('#idea_subject').val() + '&text=' + $('#idea_description').val() 
+                    + '&event_id={{ event.id }}',
             success: function (data) {
                 $('#myModal').modal('hide');
                 $('.new_added').removeClass('new_added');
@@ -117,7 +118,7 @@
                 $('#ideas_row').prepend('<br><div class="panel panel-default" style="margin-bottom: 10px;"> \
                     <div class="panel-body"> \
                         <b><a style="font-size: 1.3em;" href="/idea/' + data + '">' + $('#idea_subject').val() + '</a></b>' +
-                        '&nbsp;&nbsp;&nbsp;<a style="color: darkgray;" href="/user/{{ idea.autor.id }}">' +
+                        '&nbsp;&nbsp;&nbsp;<a style="color: darkgray;" href="/user/{{ user.id }}">' +
                                        '{{ user.first_name }} {{ user.last_name }}' + '</a> \
                         <p>' + $('#idea_description').val() + '</p> \
                         \

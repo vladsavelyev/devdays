@@ -16,15 +16,9 @@ def index(request, userId):
 
     data = {
         'user': user,
-        'userIdeas': Idea.objects.all().filter(autor=user.id),
+        'userIdeas': Idea.objects.all().filter(author=user.id),
         'gravatarUrl': getGravatarUrl(request, user.email, 128),
         'events': Event.objects.all().order_by('-date'),
     }
     data['userIdeas'].tail = data['userIdeas'][1:] 
     return render_to_response('user.html', data)
-    
-
-
-def list_users(request):
-    data = { 'users': User.objects.all() }
-    return render_to_response('users.html', data)

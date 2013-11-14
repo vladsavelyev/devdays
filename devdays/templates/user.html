@@ -18,10 +18,8 @@
     {% if userIdeas.count > 0 %}
         <div>
             <h3>Автор проектов: </h3>
-            <a href="/idea/{{ userIdeas.0.id }}"> {{ userIdeas.0.name }} </a>   
-            {% for idea in userIdeas.tail  %}
-                , <a href="/idea/{{ idea.id }}"> {{ idea.name }} </a>  
-            {% endfor %}
+            <a href="/idea/{{ userIdeas.0.id }}">{{ userIdeas.0.name }}</a>   
+            {% for idea in userIdeas.tail  %}, <a href="/idea/{{ idea.id }}">{{ idea.name }}</a>{% endfor %}
         </div>
     {% endif %}
     

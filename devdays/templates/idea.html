@@ -7,7 +7,7 @@
 
 {% block contents %}
     <p>{{ idea.description }}</p>
-    <p>Автор <a href="/user/{{ idea.autor.username }}">{{ idea.autor.first_name }} {{ idea.autor.last_name }}</a>.</p>
+    <p>Автор <a href="/user/{{ idea.author.username }}">{{ idea.author.first_name }} {{ idea.author.last_name }}</a>.</p>
     <p>Лайки: {{ idea.likes.all.count }}</p>
 
 {% endblock %}
