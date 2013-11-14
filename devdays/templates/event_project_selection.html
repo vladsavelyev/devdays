@@ -37,9 +37,9 @@
 
                     <span style="float: right;">
                         <small>Участники: <span id="participants_{{ prj.id }}_span">
-                            {% for st in prj.students.all %}
-                                <a href="/user/{{ st.id }}"> {{ st.first_name }} {{ st.last_name }}</a>{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
+                            {% for st in prj.students.all %}<a href="/user/{{ st.id }}"
+                                    >{{ st.first_name }} {{ st.last_name }}</a
+                                    >{% if not forloop.last %}, {% endif %}{% endfor %}
                         </span></small>&nbsp;
                         <button type="button" class="btn btn-default btn-xs" id='participate_button'
                                 onclick='participate_click({{ prj.id }})'>Участвовать</button>
@@ -65,19 +65,21 @@
             data: '',
             success: function (data) {
                 var ps_span = $('#participants_' + prj_id + '_span');
-                var ps = ps_span.text().trim();
+                var ps = ps_span.html().trim();
+                var user_el = '<a href="/user/{{ loggedUser.id }}">{{ loggedUser.first_name }} {{ loggedUser.last_name }}</a>';
+
                 if (ps.length == 0) {
-                    ps_span.html('{{ loggedUser.first_name }} {{ loggedUser.last_name }}');
+                    ps_span.html(user_el);
                 } else {
-                    ps_span.html(ps + ', {{ loggedUser.first_name }} {{ loggedUser.last_name }}');
+                    ps_span.html(ps + ', ' + user_el);
                 }
 
                 if (parseInt(data) != -1) {
                     var old_project_partic_span = $('#participants_' + data + '_span');
-                    var ps = old_project_partic_span.text().trim();
-                    ps = ps.replace(', {{ loggedUser.first_name }} {{ loggedUser.last_name }}', '');
-                    ps = ps.replace('{{ loggedUser.first_name }} {{ loggedUser.last_name }},', '');
-                    ps = ps.replace('{{ loggedUser.first_name }} {{ loggedUser.last_name }}', '');
+                    var ps = old_project_partic_span.html().trim();
+                    ps = ps.replace(', ' + user_el, '');
+                    ps = ps.replace(user_el + ', ', '');
+                    ps = ps.replace(user_el, '');
                     old_project_partic_span.html(ps);
                 }
             },
