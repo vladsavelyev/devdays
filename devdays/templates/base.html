@@ -50,12 +50,12 @@
                 <!-- <li ><a href="#contact">Archive</a> </li>-->
             </ul>
             <form class="navbar-form navbar-right">
-                {% if not user.is_authenticated %}
-                    <a class="btn btn-success" href='/openid/login'>Sign in</a>
+                {% if not loggedUser.is_authenticated %}
+                    <a class="btn btn-success" href='/openid/login'>Вход</a>
                 {% else %}
-                    <a href="user/{{ user.username }}">{{ user.first_name }} {{ user.last_name }}</a>
+                    <a href="/user/{{ loggedUser.id }}">{{ loggedUser.first_name }} {{ loggedUser.last_name }}</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="btn btn-success" href="/logout">log out</a>
+                    <a class="btn btn-success" href="/logout">Выход</a>
                 {% endif %}
 
             </form>
@@ -84,8 +84,9 @@
         </div>
         <!--/span-->
 
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas devdayslist" id="sidebar" role="navigation">
             <div class="list-group">
+                <h4>Мероприятия DevDays</h4>
                 {% for e in events %}
                     <a href="/event/{{ e.get_link }}"
                        class="list-group-item {% if event and e.id == event.id %}active{% endif %}"

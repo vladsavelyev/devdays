@@ -18,7 +18,7 @@
         {% for prj in projects %}
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <b><a style="font-size: 1.3em;" href="project/{{ prj.id }}">{{ prj.idea.name }}</a></b>
+                    <b><a style="font-size: 1.3em;" href="/project/{{ prj.id }}">{{ prj.idea.name }}</a></b>
 {##}
 {#                    {% if prj.idea.author %}#}
 {#                        &nbsp;&nbsp;&nbsp;#}
@@ -37,7 +37,9 @@
 
                     <span style="float: right;">
                         <small>Участники: <span id="participants_{{ prj.id }}_span">
-                            {% for st in prj.students.all %}{{ st.first_name }} {{ st.last_name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                            {% for st in prj.students.all %}
+                                <a href="/user/{{ st.id }}"> {{ st.first_name }} {{ st.last_name }}</a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
                         </span></small>&nbsp;
                         <button type="button" class="btn btn-default btn-xs" id='participate_button'
                                 onclick='participate_click({{ prj.id }})'>Участвовать</button>
