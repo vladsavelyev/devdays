@@ -71,6 +71,9 @@ class Project(models.Model):
     comments = models.ManyToManyField(Comment, blank=True, null=True)
     link = models.CharField(max_length=1024, blank=True, null=True)
 
+    def get_link(self):
+        return self.link or self.idea.link
+
     opened_issues = models.IntegerField(blank=True, null=True, default=-1)
     closed_issues = models.IntegerField(blank=True, null=True, default=-1)
     commits = models.IntegerField(blank=True, null=True, default=-1)

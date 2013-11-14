@@ -11,8 +11,9 @@ class Command(BaseCommand):
         self.stdout.write('Starting updating projects.\n')
 
         for p in Project.objects.all():
-            if p.link and p.link.find('github'):
-                url = p.link + '/pulse'
+            link = p.link or p.idea.link
+            if link and link.find('github'):
+                url = link + '/pulse'
                 page = html.fromstring(urllib.urlopen(url).read())
                 try:
                     elop = page.xpath('//a[@href="#new-issues"]/span[@class="num"]/span[@class="octicon octicon-issue-opened"]')[0]

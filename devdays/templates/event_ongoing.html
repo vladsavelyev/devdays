@@ -33,8 +33,8 @@
 {#            </td>#}
             <td style="padding-right: 40px;
                        padding-bottom: 20px;">
-                {% if proj.link %}<a href="{{ proj.link }}">{{ proj.link }}</a>
-                    <br>Issues: {% if proj.opened_issues != -1 %}{{ proj.opened_issues }} open, {% endif %}
+                {% if proj.get_link %}<a href="{{ proj.get_link }}">{{ proj.get_link }}</a>
+                    <br>{% if proj.opened_issues != -1 %}Issues: {{ proj.opened_issues }} open, {% endif %}
                     {% if proj.closed_issues != -1 %}{{ proj.closed_issues }} closed, {% endif %}
                     {% if proj.commits != -1 %}{{ proj.commits }} commits.{% endif %}
                 {% endif %}
