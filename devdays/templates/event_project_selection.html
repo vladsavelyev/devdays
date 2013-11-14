@@ -66,14 +66,14 @@
             success: function (data) {
                 var ps_span = $('#participants_' + prj_id + '_span');
                 var ps = ps_span.text().trim();
-                ps_span.html(ps + ', {{ user.first_name }} {{ user.last_name }}');
+                ps_span.html(ps + ', {{ loggedUser.first_name }} {{ loggedUser.last_name }}');
 
                 if (parseInt(data) != -1) {
                     var old_project_partic_span = $('#participants_' + data + '_span');
                     var ps = old_project_partic_span.text().trim();
-                    ps = ps.replace(', {{ user.first_name }} {{ user.last_name }}', '');
-                    ps = ps.replace('{{ user.first_name }} {{ user.last_name }},', '');
-                    ps = ps.replace('{{ user.first_name }} {{ user.last_name }}', '');
+                    ps = ps.replace(', {{ loggedUser.first_name }} {{ loggedUser.last_name }}', '');
+                    ps = ps.replace('{{ loggedUser.first_name }} {{ loggedUser.last_name }},', '');
+                    ps = ps.replace('{{ loggedUser.first_name }} {{ loggedUser.last_name }}', '');
                     old_project_partic_span.html(ps);
                 }
             },

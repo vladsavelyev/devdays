@@ -2,16 +2,16 @@
 
 {% block buttons %}
     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-        Offer Idea
+        Предложить проект
     </button>
 
-    {% if user.is_staff or user.is_supersuser %}
+    {% if loggedUser.is_staff or loggedUser.is_supersuser %}
         <a type="button"
            class="btn btn-success btn-lg"
            id="start_btn"
            style="margin-left: 20px; text-decoration: none;"
            href="/start_selection/{{ event.get_link }}">
-            Start project selection with top ideas
+            Открыть второй этап голования
         </a >
     {% endif %}
 {% endblock %}
@@ -24,20 +24,21 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Offer Idea</h4>
+                    <h4 class="modal-title" id="myModalLabel">Заявка. Идея проекта.</h4>
                 </div>
 
                 <div class="modal-body">
-                    <input type="text" id="idea_subject" class="form-control" placeholder="Subject">
+                    <input type="text" id="idea_subject" class="form-control" placeholder="Название проекта">
                     <br>
                     <textarea id="idea_description" class="form-control" style="height: 200px;"
-                              placeholder="Description"></textarea>
+                              placeholder="Краткое описание проекта. Расскажите о мотивации, 
+                              целях и предполагаемых технологиях проекта. Добавьте данные для связи (будут доступны публично)"></textarea>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="submit_new_form">Close
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="submit_new_form">Отменить
                     </button>
-                    <button type="button" onclick='submit_idea()' class="btn btn-primary">Save changes</button>
+                    <button type="button" onclick='submit_idea()' class="btn btn-primary" >Отправить</button>
                 </div>
 
             </div>
@@ -54,7 +55,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <b><a style="font-size: 1.3em;" href="/idea/{{ idea.id }}">{{ idea.name }}</a></b>
-                    {% ifequal idea.author user %}
+                    {% ifequal idea.author loggedUser %}
                              <span style="float: right;">
                                 <a style="color: black; text-decoration: none;" href="idea/{{ idea.id }}"><i class="glyphicon-pencil"></i></a>
                             </span>
@@ -87,7 +88,7 @@
             success: function (data) {
                 likes = parseInt($('#idea_' + idea_id + '_likes_span').html());
                 $('#idea_' + idea_id + '_likes_span').html(likes + 1);
-            },
+            }
         });
         $('.new_added').html(1);
     }
@@ -99,8 +100,8 @@
             data: '',
             success: function (data) {
                 participants = $('#participants_' + idea_id + '_span').html();
-                $('#participants_' + idea_id + '_span').html(participants + ' ' + {{ user.last_name }});
-            },
+                $('#participants_' + idea_id + '_span').html(participants + '{{ user.last_name }}' );
+            }
         });
     }
 

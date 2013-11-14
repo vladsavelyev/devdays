@@ -28,8 +28,7 @@ def idea_edit(request, ideaId):
     data = {
         'loggedUser' : request.user,
         'events': Event.objects.all().order_by('-date'),
-        'idea': idea,
-        
+        'idea': idea,   
     }
     data.update(csrf(request))
     return render_to_response('idea/edit.html', data)
