@@ -53,3 +53,6 @@ footer {
 /*.idea_description{ height: 160px }*/
 
 .devdayslist a{ text-decoration: none }
+
+a.logo-text { text-decoration: none; font-size: 25px; color: white;
+    font-family: Helvetica; line-height: 50px; margin: 10px;}
