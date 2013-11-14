@@ -22,19 +22,21 @@ class Group(models.Model):
 
 
 class Event(models.Model):
+    name = models.CharField(max_length=100, default='Some DEVDAYS EVENT')
     date = models.DateTimeField()
-    length = models.IntegerField(default=3)
+    length = models.IntegerField(default=3) # it means "duration" 
     state = models.CharField(max_length=100, blank=True, null=True, default='initial')
         # initial | selection | ongoing | past
+    
 
     def get_link(self):
         return self.date.strftime('%m_%Y')
 
     def __unicode__(self):
-        return u"Event %s" % str(self.date)
+        return u"%s %s" % (self.name, str(self.date))
 
     def __str__(self):
-        return u"Event %s" % str(self.date)
+        return u"%s %s" % (self.name, str(self.date))
 
 
 class Idea(models.Model):

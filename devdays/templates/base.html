@@ -90,7 +90,7 @@
                 {% for e in events %}
                     <a href="/event/{{ e.get_link }}"
                        class="list-group-item {% if event and e.id == event.id %}active{% endif %}"
-                            >Devdays {{ e.date|date:"M Y" }}</a>
+                            >{{ e.name }}</a>
                 {% endfor %}
             </div>
         </div>
