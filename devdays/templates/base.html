@@ -75,7 +75,7 @@
 
             <div class="jumbotron"
                  {% if event and event.state == 'ongoing' %}style="background-color: #5cb85c;"{% endif %}>
-                <h1 style="text-align: center">{% block header %}Devdays{% endblock %}</h1>
+                <h1 id="headerh1" style="text-align: center">{% block header %}Devdays{% endblock %}</h1>
 
                 <p>{% block description %}{% endblock %}</p>
             </div>
@@ -117,6 +117,11 @@
         $('[data-toggle=offcanvas]').click(function () {
             $('.row-offcanvas').toggleClass('active');
         });
+        
+        
+        if($("#headerh1 div").length > 0){
+            $("#headerh1").parent().html($("#headerh1").html()).css('position','relative').css('height','220px')
+        }
     });
 </script>
 </body>

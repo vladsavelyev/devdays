@@ -2,7 +2,12 @@
 
 {% block title %}Dev Days {{ event.date|date:'M Y' }}{% endblock %}
 
-{% block header %}{{ event.name }}{% endblock %}
+{% block header %}
+    <div class="back-back-back jumbotron" style="background: url('/static/backs/back1.png')">
+        {{ event.name }}
+    </div>
+    
+{% endblock %}
 
 {% block description %}
     <hr style="background-color: black">
