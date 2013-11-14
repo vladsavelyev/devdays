@@ -159,10 +159,6 @@ def project_view(request, id):
     return render_to_response('project.html')
 
 
-def ideas_view(request):
-    return render_to_response('ideas.html')
-
-
 def ajax_new_idea(request):
     if request.is_ajax():
         print 'ajax, ok'
@@ -194,9 +190,4 @@ def ajax_new_idea(request):
     #    msg = "GET petitions are not allowed for this view."
 
 
-def idea_view(request, id):
-    idea = Idea.objects.get(id=id)
-    return render_to_response('idea.html', {
-        'idea': idea,
-    })
 
