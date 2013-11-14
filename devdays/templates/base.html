@@ -40,7 +40,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="logo-text" href="/">SPBAU DevDays</a>
+            <a class="navbar-brand" href="/">AU DevDays</a>
 
         </div>
         <div class="navbar-collapse collapse">
@@ -75,7 +75,7 @@
 
             <div class="jumbotron"
                  {% if event and event.state == 'ongoing' %}style="background-color: #5cb85c;"{% endif %}>
-                <h1 id="headerh1" style="text-align: center">{% block header %}Devdays{% endblock %}</h1>
+                <h1  style="text-align: center">{% block header %}Devdays{% endblock %}</h1>
 
                 <p>{% block description %}{% endblock %}</p>
             </div>
@@ -118,10 +118,10 @@
             $('.row-offcanvas').toggleClass('active');
         });
         
-        
-        if($("#headerh1 div").length > 0){
-            $("#headerh1").parent().html($("#headerh1").html()).css('position','relative').css('height','220px')
-        }
+{#        #}
+{#        if($("#headerh1 div").length > 0){#}
+{#            $("#headerh1").parent().html($("#headerh1").html()).css('position','relative').css('height','220px')#}
+{#        }#}
     });
 </script>
 </body>
